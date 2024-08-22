@@ -1,0 +1,108 @@
+import React from "react";
+import styles from "../css/Interactive.module.css";
+import { useState, useEffect } from "react";
+import Testing from "./Testing";
+import ExternalSourceLink from "./ExternalSourceLink";
+import CorrectWordsChoice from "./CorrectWordsChoice";
+
+const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, serverData, serverDataGot }) => {
+  const [interactiveData, setInteractiveData] = useState({});
+  const [sentBtn, setSentBtn] = useState(false);
+  const changeHandler = (event) => {
+    const { name, value } = event.target;
+    setInteractiveData((prev) => ({ ...prev, [name]: value }));
+  }
+  const sendToGlobalDataHandler = () => {
+    setInteractives((prev) => [...prev, interactiveData]);
+    setSentBtn(true);
+  };
+  const getInteractiveDataHandler = (receivedInfo) => {
+    setInteractiveData(prev => ({ ...prev, receivedInfo }));
+  };
+
+  //Заполняем инфой
+  useEffect(() => {
+    if(serverDataGot) {
+      let serverInteractiveData = serverData['interactives'][interactiveIndex];
+      
+      if(serverInteractiveData) { 
+      setInteractiveData(serverInteractiveData);
+    }
+    }
+  }, [])
+  
+  console.log(interactiveData, 'inter')
+  return (
+    <div
+      className={`${interactiveIndex !== +currentInteractive && styles.invisible}`}>
+        <section>
+        {!serverDataGot && <div>
+            <label>Тип интерактива:&nbsp;</label>
+            <select name="interactive_type" onChange={changeHandler} defaultValue='Выберите из списка'>
+              <option hidden value="Выберите из списка"> Выберите из списка...</option>
+              <option value="testing">Тестирование</option>
+              <option value="correctWordsChoice">Выбор правильных слов</option>
+              <option value="externalSourceLink">
+                Ссылка на внешний источник
+              </option>
+            </select>
+          </div>
+        }
+        {!serverDataGot && <div>
+            <label>TimeCode:&nbsp;</label>
+            <input
+              type="text"
+              name="time_code"
+              // value={`${serverDataGot ? serverData['interactives'][interactivesIndex]['time_code'] : data['time_code']}`}
+              onChange={changeHandler}
+              placeholder='00:05'
+              required
+              maxLength={5}
+            />
+          </div>}
+
+
+
+        {serverDataGot &&
+          <div>
+            <label>Тип интерактива:&nbsp;</label>
+            <select name="interactive_type" onChange={changeHandler} disabled={serverData['interactives'][interactiveIndex]? true : false} defaultValue={`${serverData['interactives'][interactiveIndex]? serverData['interactives'][interactiveIndex]['interactive_type'] : 'Выберите из списка'}`}>
+              <option hidden value="Выберите из списка"> Выберите из списка...</option>
+              <option value="testing">Тестирование</option>
+              <option value="correctWordsChoice">Выбор правильных слов</option>
+              <option value="externalSourceLink">
+                Ссылка на внешний источник
+              </option>
+            </select>
+          </div>
+        }
+
+        {serverDataGot && <div>
+            <label>TimeCode:&nbsp;</label>
+
+            <input defaultValue={`${serverData['interactives'][interactiveIndex] ? serverData['interactives'][interactiveIndex]['time_code'] : ''}`}
+              type="text"
+              name="time_code"
+              onChange={changeHandler}
+              placeholder='00:05'
+              required
+              maxLength={5}
+            />
+          </div>}
+      </section>
+      <section>
+        {interactiveData["interactive_type"] === "testing" && <Testing sentBtn={sentBtn} getData={getInteractiveDataHandler}/>}
+        {interactiveData["interactive_type"] === "correctWordsChoice" && (
+          <CorrectWordsChoice sentBtn={sentBtn} getData={getInteractiveDataHandler} />
+        )}
+        {interactiveData["interactive_type"] === "externalSourceLink" && (
+          <ExternalSourceLink sentBtn={sentBtn} getData={getInteractiveDataHandler}/>
+        )}
+      </section>
+      {!sentBtn && <button onClick={sendToGlobalDataHandler}>Send</button>}
+      {sentBtn && <p>Send</p>}
+    </div>
+  );
+};
+
+export default Interactive;
