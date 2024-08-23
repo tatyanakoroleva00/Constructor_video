@@ -10,17 +10,17 @@ const FinishCourse = ({globalData}) => {
     })
       .then(response => response.text())
       .then(data => {
-      console.log(data, 'dataSentToServer');
+      // console.log(data, 'dataSentToServer');
+  
 
       window.setTimeout(() => {
         window.location.reload();
       }, 1000)
-
       })
   }
 
   return (
-    <button onClick={finishCourseHandler}>FinishCourse</button>
+    <button onClick={finishCourseHandler}>Завершить курс</button>
   )
 }
 

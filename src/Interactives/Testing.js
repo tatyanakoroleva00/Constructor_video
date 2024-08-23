@@ -3,7 +3,7 @@ import QuestionCard from "./QuestionCard";
 import { useState, useEffect } from "react";
 import styles from '../css/Testing.module.css';
 
-export default function Testing({ sentBtn, getData }) {
+export default function Testing({ sentBtn, getData, serverData, serverDataGot, interactiveIndex }) {
   const [questionsArr, setQuestionsArr] = useState([]);
   const [data, setData] = useState({});
 
@@ -12,6 +12,21 @@ export default function Testing({ sentBtn, getData }) {
   useEffect(() => {
     getData(data);
   }, [data])
+
+
+  useEffect(() => {
+    if (serverDataGot && serverData['interactives'][interactiveIndex] ) {
+      let serverDataReceived = serverData['interactives'][interactiveIndex]['receivedInfo'];
+      setData(serverDataReceived);
+      //Создаю счетчик для вопросов непосредственно из входящих вопросов с сервера
+      let elemArr = [];
+      let elemsObj = serverData['interactives'][interactiveIndex]['receivedInfo'];
+      for (let key in elemsObj) {
+        elemArr.push(key);
+      }
+      setQuestionsArr(elemArr);
+    }
+  }, [])
 
   //Добавляется новое пустое поле с вопросом и ответами по клику на "Добавить вопрос и ответы"
   const addQuestionHandler = () => {
@@ -36,7 +51,7 @@ export default function Testing({ sentBtn, getData }) {
     <div className={styles.question}>
       {questionsArr.map((question, index) => (
         <div key={question + index}>
-          <QuestionCard order={index + 1} getQuestionAnswersData={questionAnswersDataHandler} />
+          <QuestionCard questionIndex={index} interactiveIndex={interactiveIndex} serverData={serverData} serverDataGot={serverDataGot} order={index + 1} getQuestionsData={questionAnswersDataHandler} />
         </div>
       ))}
 

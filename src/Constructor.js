@@ -11,9 +11,6 @@ const [globalData, setGlobalData] = useState({
   'url' : '',
 });
 const [serverData, setServerData] = useState({});
-
-console.log(globalData, 'gb');
-console.log(serverData, 'sv');
   return (
     <div className={styles['constructor-wrapper']}>
         <div className={`${switchStates && styles.invisible}`}><StateOne setServerData={setServerData} setServerDataGot={setServerDataGot} setSwitchStates={setSwitchStates} setGlobalData={setGlobalData} /></div>

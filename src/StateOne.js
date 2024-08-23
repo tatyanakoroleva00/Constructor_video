@@ -50,6 +50,7 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
       .then(data => {
         console.log(data, 'to edit');
         setSwitchStates(true);
+        data['id'] = courseIdGot;
         // getData(data); //получаем данные по курсу с сервера
         setServerData(data); //задаем Сервеные данные
         setServerDataGot(true);

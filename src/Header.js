@@ -8,24 +8,31 @@ import CoursesButton from "./Buttons/CoursesButton";
 
 const Header = ({ setInteractivesArr, setCurrentInteractive, setInitialForm, initialForm, setInteractives, interactives, globalData, serverDataGot, serverData }) => {
   const [coursesButtonsArr, setCoursesButtonsArr] = useState([1]);
+  const [initialData, setInitialData] = useState(false);
 
-  //Автонаполнение - кол-во кнопок  - кол-во интерактивов
   useEffect(() => {
     setInteractivesArr(coursesButtonsArr);
-  }, [coursesButtonsArr, setInteractivesArr]);
+  }, [coursesButtonsArr]);
 
-  
   const addCourseHandler = () => {
     setCoursesButtonsArr((prev) => [...prev, 1]);
   };
   const deleteCourseHandler = () => {
     setCoursesButtonsArr(coursesButtonsArr.slice(0, -1));
-    setInteractives(interactives.slice(0, -1));
+
+    if(coursesButtonsArr.length === interactives.length) {
+      setInteractives(interactives.slice(0, -1));
+    }
   };
+
+  useEffect(() => {
+    if(serverDataGot) setCoursesButtonsArr(serverData['interactives']); //OK
+  }, [serverData['interactives']]);
+
   return (
     <div>
       <div>
-        <div><InitialData setInitialForm={setInitialForm} initialForm={initialForm}/></div>
+        <div><InitialData setInitialForm={setInitialForm} initialForm={initialForm} setInitialData={setInitialData}/></div>
         <div><AddCourse addCourse={addCourseHandler} />
         <DeleteCourse deleteCourse={deleteCourseHandler} /></div>
       </div>

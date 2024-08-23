@@ -1,8 +1,8 @@
-import InteractiveExtLink from './InteractiveExtLink.jsx';
-import InteractiveQuiz from './InteractiveQuiz.jsx';
-import InteractiveCorWords from './InteractiveCorWords.jsx';
+import InteractiveExtLink from './InteractiveExtLink.js';
+import InteractiveQuiz from './InteractiveQuiz.js';
+import InteractiveCorWords from './InteractiveCorWords.js';
 import HP from '../video/HP.mp4';
-import styles from '../css/DemoPlayer.module.css';
+import styles from '../css/DemoPlayer.module.css'
 import play_button from '../images/play-btn.png';
 import pause_button from '../images/pause-btn.png';
 import "react-video-seek-slider/styles.css";

@@ -8,6 +8,13 @@ import CorrectWordsChoice from "./CorrectWordsChoice";
 const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, serverData, serverDataGot }) => {
   const [interactiveData, setInteractiveData] = useState({});
   const [sentBtn, setSentBtn] = useState(false);
+
+  useEffect(() => {
+    if(serverDataGot && serverData['interactives'][interactiveIndex]) {
+      setInteractiveData(serverData['interactives'][interactiveIndex]);
+    }
+  }, [serverData['interactives']])
+
   const changeHandler = (event) => {
     const { name, value } = event.target;
     setInteractiveData((prev) => ({ ...prev, [name]: value }));
@@ -20,23 +27,12 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
     setInteractiveData(prev => ({ ...prev, receivedInfo }));
   };
 
-  //Заполняем инфой
-  useEffect(() => {
-    if(serverDataGot) {
-      let serverInteractiveData = serverData['interactives'][interactiveIndex];
-      
-      if(serverInteractiveData) { 
-      setInteractiveData(serverInteractiveData);
-    }
-    }
-  }, [])
-  
-  console.log(interactiveData, 'inter')
   return (
     <div
       className={`${interactiveIndex !== +currentInteractive && styles.invisible}`}>
-        <section>
-        {!serverDataGot && <div>
+      <section>
+
+      {!serverDataGot && <div>
             <label>Тип интерактива:&nbsp;</label>
             <select name="interactive_type" onChange={changeHandler} defaultValue='Выберите из списка'>
               <option hidden value="Выберите из списка"> Выберите из списка...</option>
@@ -53,7 +49,6 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
             <input
               type="text"
               name="time_code"
-              // value={`${serverDataGot ? serverData['interactives'][interactivesIndex]['time_code'] : data['time_code']}`}
               onChange={changeHandler}
               placeholder='00:05'
               required
@@ -61,12 +56,11 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
             />
           </div>}
 
-
-
         {serverDataGot &&
           <div>
             <label>Тип интерактива:&nbsp;</label>
-            <select name="interactive_type" onChange={changeHandler} disabled={serverData['interactives'][interactiveIndex]? true : false} defaultValue={`${serverData['interactives'][interactiveIndex]? serverData['interactives'][interactiveIndex]['interactive_type'] : 'Выберите из списка'}`}>
+            <select name="interactive_type" onChange={changeHandler} disabled={serverData['interactives'][interactiveIndex]? true : false} 
+            defaultValue={`${serverData['interactives'][interactiveIndex]? serverData['interactives'][interactiveIndex]['interactive_type'] : interactiveData['interactive_type']}`}>
               <option hidden value="Выберите из списка"> Выберите из списка...</option>
               <option value="testing">Тестирование</option>
               <option value="correctWordsChoice">Выбор правильных слов</option>
@@ -79,7 +73,6 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
 
         {serverDataGot && <div>
             <label>TimeCode:&nbsp;</label>
-
             <input defaultValue={`${serverData['interactives'][interactiveIndex] ? serverData['interactives'][interactiveIndex]['time_code'] : ''}`}
               type="text"
               name="time_code"
@@ -91,12 +84,12 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
           </div>}
       </section>
       <section>
-        {interactiveData["interactive_type"] === "testing" && <Testing sentBtn={sentBtn} getData={getInteractiveDataHandler}/>}
+        {interactiveData["interactive_type"] === "testing" && <Testing interactiveIndex={interactiveIndex} sentBtn={sentBtn} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} />}
         {interactiveData["interactive_type"] === "correctWordsChoice" && (
-          <CorrectWordsChoice sentBtn={sentBtn} getData={getInteractiveDataHandler} />
+          <CorrectWordsChoice sentBtn={sentBtn} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} interactiveIndex={interactiveIndex} />
         )}
         {interactiveData["interactive_type"] === "externalSourceLink" && (
-          <ExternalSourceLink sentBtn={sentBtn} getData={getInteractiveDataHandler}/>
+          <ExternalSourceLink sentBtn={sentBtn} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} interactiveIndex={interactiveIndex} />
         )}
       </section>
       {!sentBtn && <button onClick={sendToGlobalDataHandler}>Send</button>}
