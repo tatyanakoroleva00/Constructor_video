@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from '../css/InteractiveCorWords.module.css';
+import styles from './InteractiveCorWords.module.css';
 import { useState } from 'react';
 export default function InteractiveCorWords({click}) {
   const [chosenWords, setChosenWords] = useState({});
@@ -9,27 +9,27 @@ export default function InteractiveCorWords({click}) {
   const correctWordsData = {
     "task": "Выберите все слова, которые относятся к миру Гарри Поттера",
     "word1": {
-      "word_name": "Гарри Поттер",
+      "word-name": "Гарри Поттер",
       "status": "yes"
     },
     "word2": {
-      "word_name": "Гермиона",
+      "word-name": "Гермиона",
       "status": "yes"
     },
     "word3": {
-      "word_name": "Снейп",
+      "word-name": "Снейп",
       "status": "yes"
     },
     "word4": {
-      "word_name": "Властелин Колец",
+      "word-name": "Властелин Колец",
       "status": "no"
     },
     "word5": {
-      "word_name": "Человек-паук",
+      "word-name": "Человек-паук",
       "status": "no"
     },
     "word6": {
-      "word_name": "Кай и Герда",
+      "word-name": "Кай и Герда",
       "status": "no"
     }
   }
@@ -38,7 +38,7 @@ export default function InteractiveCorWords({click}) {
   let correctWordsArr = [];
   for (let key in correctWordsData) {
     if (key.includes("word")) {
-      let word = correctWordsData[key]["word_name"];
+      let word = correctWordsData[key]["word-name"];
       words.push(word);
 
       let correctAnswer = correctWordsData[key]["status"];
@@ -62,6 +62,7 @@ export default function InteractiveCorWords({click}) {
     for (let key in chosenWords) {
       chosenWordsArr.push(key);
     }
+    console.log('chosenWordsArr', chosenWordsArr);   
     let sortedChosenWordsArr =  chosenWordsArr.sort();
     let sortedCorrectWordsArr = correctWordsArr.sort();
 

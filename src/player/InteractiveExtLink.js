@@ -1,17 +1,20 @@
 import React from "react";
-import styles from '../css/InteractiveExtLink.module.css';
+import styles from './InteractiveExtLink.module.css';
+export default function InteractiveExtLink({ click, interactivesArr, timeCode }) {
 
-export default function InteractiveExtLink({ click }) {
-
-    const linkTaskData = {
-        "external_source_link_description": "Более подробнее узнать о мире Гарри Поттера можно перейдя по ссылке ниже",
-        "external_source_url": "https://harrypotter.fandom.com/ru"
+    let data = {};
+    for (let elem of interactivesArr) {
+        if(Math.floor(timeCode) == elem['time_code']) {
+            data = elem;
+            console.log(elem['receivedInfo'], 'elem');
+        }
     }
+
     return (
         <div className={styles.container} >
             <div className={styles['external-link-wrapper']}>
-                <p>{linkTaskData["external_source_link_description"]}</p>
-                <p><a target="_blank" href={linkTaskData["external_source_url"]}>{linkTaskData["external_source_url"]}</a></p>
+                <p className={styles['link-description']}>{data['receivedInfo']['external_source_link_description']}</p>
+                <p className={styles['weblink']}><a target="_blank" href={data['receivedInfo']['external_source_url']}>{data['receivedInfo']['external_source_url']}</a></p>
                 <button className={styles['next-button']} onClick={click}>Продолжить</button>
             </div>
         </div>
