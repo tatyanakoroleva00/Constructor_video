@@ -23,6 +23,7 @@ const StateTwo = ({globalData, setGlobalData, serverData, serverDataGot}) => {
 
   return (
     <div>
+      {globalData['heading'] && <h1>{globalData['heading']}</h1>}
       <Header
         setInteractivesArr={setInteractivesArr} globalData={globalData}
         setCurrentInteractive={setCurrentInteractive}

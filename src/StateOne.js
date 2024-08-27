@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './css/StateOne.module.css';
 import { useState, useEffect } from "react";
-const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerDataGot }) => {
+const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerDataGot, setVideoData, setInteractivesArr, setPlayBtnIsClicked }) => {
   const [newCourse, setNewCourse] = useState(false);
   const [stateOneData, setStateOneData] = useState({
     heading: "",
@@ -57,6 +57,20 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
         setGlobalData(data);
       })
   }
+
+  const showVideoCourseHandler = (videoCourseId) => {
+    fetch('http://quiz.site/edit-videocourse-handler', {
+      method: 'POST',
+      body: JSON.stringify(Math.floor(videoCourseId))
+  })
+      .then(response => response.json())
+      .then(data => {
+          // console.log(data, 'data');
+          setVideoData(data);
+          setInteractivesArr(data.interactives);
+          setPlayBtnIsClicked(true);
+      })
+  }
   return (
     <div>
        <p>КОНСТРУКТОР</p>
@@ -69,6 +83,7 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
               <div>
                 <button onClick={(event) => editInteractiveHandler(event, elem['video_course_id'])}>Edit</button>
                 <button onClick={(event) => deleteInteractiveHandler(event, elem['video_course_id'])}>Delete</button>
+                <button onClick={() => showVideoCourseHandler(elem['video_course_id'])}>Play</button>
               </div>
             </div>
           ))}
