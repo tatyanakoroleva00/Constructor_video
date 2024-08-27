@@ -1,3 +1,9 @@
 .invisible {
     display: none;
 }
+.block {
+    margin-bottom: 1rem;
+}
+select {
+    padding: 0.5rem;
+}

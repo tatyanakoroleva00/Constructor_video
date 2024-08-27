@@ -1,8 +1,9 @@
 import React from 'react'
+import styles from '../css/Buttons.module.css';
 
 const AddCourse = ({addCourse}) => {
   return (
-    <button onClick={addCourse}>+</button>
+    <button className={styles['add-button']} onClick={addCourse}>Добавить интерактив</button>
   )
 }
 

@@ -1,6 +1,8 @@
 import React from 'react'
+import styles from '../css/Buttons.module.css';
+import { useState } from 'react';
 
-const FinishCourse = ({globalData}) => {
+const FinishCourse = ({globalData, serverDataGot, setFinishBtnClicked}) => {
   
   const finishCourseHandler = () => { //Получаем все данные, полученные от пользователя и отправляем их на сервер
 
@@ -12,15 +14,19 @@ const FinishCourse = ({globalData}) => {
       .then(data => {
       // console.log(data, 'dataSentToServer');
   
+      setFinishBtnClicked(true);
 
       window.setTimeout(() => {
         window.location.reload();
-      }, 1000)
+      }, 3000)
       })
   }
 
   return (
-    <button onClick={finishCourseHandler}>Завершить курс</button>
+    <>
+    {!serverDataGot && <button className={styles['finish-button']} onClick={finishCourseHandler}>Завершить курс</button>}
+    {serverDataGot && <button className={styles['finish-button']} onClick={finishCourseHandler}>Сохранить изменения</button>}
+    </>
   )
 }
 

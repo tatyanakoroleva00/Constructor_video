@@ -119,3 +119,23 @@
     color: rgb(0, 0, 0);
     
 }
+.close-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    background-color: rgb(0, 0, 0);
+    border: none;
+    color: white;
+    border: 1px solid grey;
+}
+.close-btn:hover {
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+}

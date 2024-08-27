@@ -6,7 +6,7 @@ import DeleteCourse from "./Buttons/DeleteCourse";
 import { useState, useEffect } from "react";
 import CoursesButton from "./Buttons/CoursesButton";
 
-const Header = ({ setInteractivesArr, setCurrentInteractive, setInitialForm, initialForm, setInteractives, interactives, globalData, serverDataGot, serverData }) => {
+const Header = ({ setInteractivesArr, setCurrentInteractive, setInitialForm, initialForm, setInteractives, interactives, globalData, serverDataGot, serverData, setFinishBtnClicked }) => {
   const [coursesButtonsArr, setCoursesButtonsArr] = useState([1]);
   const [initialData, setInitialData] = useState(false);
 
@@ -41,7 +41,7 @@ const Header = ({ setInteractivesArr, setCurrentInteractive, setInitialForm, ini
           <CoursesButton key={index} btnIndex={index} setCurrentInteractive={setCurrentInteractive}/>
         ))}
       </div>
-      <div><FinishCourse globalData={globalData} /></div>
+      <div><FinishCourse serverDataGot={serverDataGot} globalData={globalData} setFinishBtnClicked={setFinishBtnClicked}/></div>
     </div>
   );
 };

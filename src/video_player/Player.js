@@ -6,7 +6,7 @@ import { VideoSeekSlider } from "react-video-seek-slider";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Interactives from './Interactives';
 
-export default function Player({videoData, interactivesArr}) {
+export default function Player({videoData, interactivesArr, setPlayBtnIsClicked}) {
     const player = useRef(null);
     const player2 = useRef(null);
     const interval = useRef(null);
@@ -128,6 +128,7 @@ export default function Player({videoData, interactivesArr}) {
     return (
         <>
             <div className={styles.container}>
+            <button onClick={()=> setPlayBtnIsClicked(false)} className={styles['close-btn']}>X</button>
                 <div className={interactiveIsShown? styles['not-visible']: styles.visible}>
                 
 

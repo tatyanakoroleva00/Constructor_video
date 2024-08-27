@@ -3,11 +3,13 @@ import Header from "./Header";
 import { useState, useEffect } from "react";
 import Interactive from "./Interactives/Interactive";
 import InitialDataForm from "./InitialDataForm";
+import styles from './css/StateOne.module.css';
 const StateTwo = ({globalData, setGlobalData, serverData, serverDataGot}) => {
   const [interactivesArr, setInteractivesArr] = useState([1]);
   const [currentInteractive, setCurrentInteractive] = useState(0);
   const [initialForm, setInitialForm] = useState(false);
   const [interactives, setInteractives] = useState([]);
+  const [finishBtnClicked, setFinishBtnClicked] = useState(false)
 
       //Здесь все интерактивы добавляются в глобальные данные
   useEffect(() => {
@@ -22,15 +24,15 @@ const StateTwo = ({globalData, setGlobalData, serverData, serverDataGot}) => {
 
 
   return (
-    <div>
-      {globalData['heading'] && <h1>{globalData['heading']}</h1>}
+    <>
+    <div className={`${finishBtnClicked && styles.hidden}`}>
+      {globalData['heading'] && <h1 className={styles.title}>{globalData['heading']}</h1>}
       <Header
         setInteractivesArr={setInteractivesArr} globalData={globalData}
-        setCurrentInteractive={setCurrentInteractive}
+        setCurrentInteractive={setCurrentInteractive} setFinishBtnClicked={setFinishBtnClicked}
         setInitialForm={setInitialForm} initialForm={initialForm} setInteractives={setInteractives} interactives={interactives} serverData={serverData} serverDataGot={serverDataGot}
       />
       {initialForm && <InitialDataForm globalData={globalData} setGlobalData={setGlobalData} />}
-      <hr></hr>
       {interactivesArr.map((interactive, index) => (
         <Interactive
           key={index}
@@ -40,10 +42,14 @@ const StateTwo = ({globalData, setGlobalData, serverData, serverDataGot}) => {
           setInteractives={setInteractives}
           serverData={serverData} serverDataGot={serverDataGot}
           setInitialForm={setInitialForm}
+          initialForm={initialForm}
         />
       ))}
-      
     </div>
+    {finishBtnClicked && <div>
+      <p>{serverDataGot ? 'Изменения сохранены' : 'Курс создан'}</p>
+    </div>}
+    </>
   );
 };
 

@@ -1,8 +1,9 @@
 import React from 'react'
+import styles from './css/StateOne.module.css';
 
 const InitialDataForm = ({globalData, setGlobalData}) => {
   return (
-    <div>
+    <div className={styles['initial-data-form']}>
         <label>Заголовок&nbsp;</label>
           <input
             type="text"

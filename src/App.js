@@ -10,7 +10,7 @@ function App() {
   return (
     <div className={styles.container}>
       <Constructor setVideoData={setVideoData} setInteractivesArr={setInteractivesArr} setPlayBtnIsClicked={setPlayBtnIsClicked}/>
-      {playBtnIsClicked && <VideoCourse videoData={videoData} interactivesArr={interactivesArr} />}
+      {playBtnIsClicked && <VideoCourse setPlayBtnIsClicked={setPlayBtnIsClicked} videoData={videoData} interactivesArr={interactivesArr} />}
     </div>
   );
 }

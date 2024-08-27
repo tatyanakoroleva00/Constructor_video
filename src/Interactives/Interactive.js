@@ -5,7 +5,7 @@ import Testing from "./Testing";
 import ExternalSourceLink from "./ExternalSourceLink";
 import CorrectWordsChoice from "./CorrectWordsChoice";
 
-const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, serverData, serverDataGot }) => {
+const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, serverData, serverDataGot, initialForm }) => {
   const [interactiveData, setInteractiveData] = useState({});
   const [sentBtn, setSentBtn] = useState(false);
 
@@ -28,11 +28,12 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
   };
 
   return (
+    <div className={`${initialForm && styles.invisible }`}>
     <div
       className={`${interactiveIndex !== +currentInteractive && styles.invisible}`}>
       <section>
 
-      {!serverDataGot && <div>
+      {!serverDataGot && <div className={styles.block}>
             <label>Тип интерактива:&nbsp;</label>
             <select name="interactive_type" onChange={changeHandler} defaultValue='Выберите из списка'>
               <option hidden value="Выберите из списка"> Выберите из списка...</option>
@@ -44,7 +45,7 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
             </select>
           </div>
         }
-        {!serverDataGot && <div>
+        {!serverDataGot && <div className={styles.block}>
             <label>TimeCode:&nbsp;</label>
             <input
               type="text"
@@ -57,7 +58,7 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
           </div>}
 
         {serverDataGot &&
-          <div>
+          <div className={styles.block}>
             <label>Тип интерактива:&nbsp;</label>
             <select name="interactive_type" onChange={changeHandler} disabled={serverData['interactives'][interactiveIndex]? true : false} 
             defaultValue={`${serverData['interactives'][interactiveIndex]? serverData['interactives'][interactiveIndex]['interactive_type'] : interactiveData['interactive_type']}`}>
@@ -71,7 +72,7 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
           </div>
         }
 
-        {serverDataGot && <div>
+        {serverDataGot && <div className={styles.block}>
             <label>TimeCode:&nbsp;</label>
             <input defaultValue={`${serverData['interactives'][interactiveIndex] ? serverData['interactives'][interactiveIndex]['time_code'] : ''}`}
               type="text"
@@ -94,6 +95,7 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
       </section>
       {!sentBtn && <button onClick={sendToGlobalDataHandler}>Send</button>}
       {sentBtn && <p>Send</p>}
+    </div>
     </div>
   );
 };

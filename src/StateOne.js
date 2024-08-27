@@ -73,17 +73,17 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
   }
   return (
     <div>
-       <p>КОНСТРУКТОР</p>
+       <p className={styles.title}>КОНСТРУКТОР</p>
       
        {courses.length !== 0 && <div className={styles['courses-table']}>
           <>
           {courses.map((elem, index) => (
             <div key={index} className={styles['table-line']}>
               <span>{elem['video_course_name']}</span>
-              <div>
-                <button onClick={(event) => editInteractiveHandler(event, elem['video_course_id'])}>Edit</button>
-                <button onClick={(event) => deleteInteractiveHandler(event, elem['video_course_id'])}>Delete</button>
-                <button onClick={() => showVideoCourseHandler(elem['video_course_id'])}>Play</button>
+              <div className={styles['btns-row']}>
+                <button className={styles['edit-btn']} onClick={(event) => editInteractiveHandler(event, elem['video_course_id'])}>Edit</button>
+                <button className={styles['delete-btn']} onClick={(event) => deleteInteractiveHandler(event, elem['video_course_id'])}>Delete</button>
+                <button className={styles['play-btn']} onClick={() => showVideoCourseHandler(elem['video_course_id'])}>Preview</button>
               </div>
             </div>
           ))}
@@ -91,11 +91,12 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
         </div>}
 
 
-      <div>
+      <div className={styles['add-new-project-wrapper']}>
         <button onClick={() => setNewCourse(true)}>Добавить проект</button>
       </div>
       {newCourse && (
-        <form onSubmit={submitFormHandler}>
+        <form className={styles['form-wrapper']} onSubmit={submitFormHandler}>
+          <div className={styles['form-fields']}>
           <label>Заголовок&nbsp;</label>
           <input
             type="text"
@@ -103,6 +104,8 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
             value={stateOneData.heading}
             onChange={inputChangeHandler}
           />
+          </div>
+          <div className={styles['form-fields']}>
           <label>URL видео&nbsp;</label>
           <input
             type="text"
@@ -110,6 +113,7 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
             value={stateOneData.url}
             onChange={inputChangeHandler}
           />
+          </div>
           <button onClick={() => setSwitchStates(true)}>Create a Course</button>
         </form>
       )}
