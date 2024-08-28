@@ -42,9 +42,11 @@ export default function Word ({order, getWordData, serverDataGot, serverData, in
         {serverDataGot && <input className={styles.word} name="word_name" defaultValue={word['word_name']} type="text" onChange={changeHandler} />}
       </div>
       <div className={styles['radio-wrapper']}>
-        <input onChange={changeHandler} type="radio" id="no" name={btnName} value="no" checked={word.status === 'no'} />
+        {!serverDataGot && <input onChange={changeHandler} type="radio" id="no" name={btnName} value="no" checked={word.status === 'no'} />}
+        {serverData && <input onChange={changeHandler} type="radio" id="no" name={btnName} defaultValue="no" checked={word.status === 'no'} />}
         <label htmlFor="no">Нет</label>
-        <input onChange={changeHandler} type="radio" id="yes" name={btnName} value="yes" checked={word.status === 'yes'} />
+        {!serverDataGot && <input onChange={changeHandler} type="radio" id="yes" name={btnName} value="yes" checked={word.status === 'yes'} />}
+        {serverDataGot && <input onChange={changeHandler} type="radio" id="yes" name={btnName} defaultValue="yes" checked={word.status === 'yes'} />}
         <label htmlFor="yes">Да</label>
       </div>
     </div>

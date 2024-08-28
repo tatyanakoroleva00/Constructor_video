@@ -1,36 +1,50 @@
 import { useState } from 'react';
 import '../css/interactive_testing.css';
 
-export default function InteractiveTesting ({click}) {
+export default function InteractiveTesting ({click, timeCode, interactivesArr}) {
 
-    const quiz = {
-        topic: 'Гарри Поттер',
-        level: 'Beginner',
-        totalQuestions: 4,
-        perQuestionScore: 5,
-        questions: [
-          {
-            question: 'Кто из этих персонажей не дружит с Гарри Поттером?',
-            choices: ['Рон Уизли', 'Невилл Лонгботтом', 'Драко Малфой', 'Гермиона Грейнджер'],
-            correctAnswer: 'Драко Малфой',
-          },
-          {
-            question: 'Какое животное было у Гарри Поттера?',
-            choices: ['Крыса', 'Сова', 'Не было', 'Кролик'],
-            correctAnswer: 'Сова',
-          },
-          {
-            question: 'Какой преподаватель ненавидел Гарри Поттера?',
-            choices: ['Дамблдор', 'Снейп', 'Макгонагал', 'Его любили все'],
-            correctAnswer: 'Снейп',
-          },
-          {
-            question: 'Где Гарри и его друзья любили выпить сливочное пиво?',
-            choices: ['Деревня Хогсмид', 'У Хагрида', 'В замке', 'В гостиной Слизерин'],
-            correctAnswer: 'Деревня Хогсмид',
-          },
-        ],
+  let data = {};
+  for (let elem of interactivesArr) {
+      if(Math.floor(timeCode) == elem['time_code']) {
+          data = elem;
+          console.log(elem['receivedInfo'], 'elem');
       }
+  }
+
+  let testing = data['receivedInfo'];
+
+  //Приведение входящих данных к существующей логике
+  let questionsArr = [];
+
+  for (let key in testing) {
+    let questionObj = {};
+    let answersArr = [];
+
+    for (let internalKey in testing[key]) {
+      if(internalKey === 'question_name') {
+        let questionName = testing[key][internalKey];
+        questionObj['question_name'] = questionName;
+      }
+      if(internalKey === 'correct') {
+        let correctAnswer = testing[key][internalKey];
+        questionObj['correctAnswer'] = correctAnswer;
+        
+      }
+      if (internalKey.includes('answer')) {
+        answersArr.push(testing[key][internalKey]);
+      }
+    }
+    questionObj.choices = answersArr;
+    questionsArr.push(questionObj);
+  }
+
+  let totalQuestionsNumber = questionsArr.length;
+
+  const quiz  = {
+    questions : questionsArr,
+    totalQuestions : totalQuestionsNumber,
+    perQuestionScore: 5,
+  };
 
   const [activeQuestion, setActiveQuestion] = useState(0)
   const [selectedAnswer, setSelectedAnswer] = useState('')
@@ -43,9 +57,8 @@ export default function InteractiveTesting ({click}) {
   })
 
   const { questions } = quiz
-  const { question, choices, correctAnswer } = questions[activeQuestion]
+  const { question_name, choices, correctAnswer } = questions[activeQuestion]
 
-  
   const onClickNext = () => {
     setSelectedAnswerIndex(null)
     setResult((prev) =>
@@ -66,8 +79,11 @@ export default function InteractiveTesting ({click}) {
   }
 
   const onAnswerSelected = (answer, index) => {
-    setSelectedAnswerIndex(index)
-    if (answer === correctAnswer) {
+    setSelectedAnswerIndex(index);
+    let chosenAnswer = index + 1;
+    console.log(chosenAnswer, 'answerindex');
+   if (chosenAnswer === Math.floor(correctAnswer)) {
+    console.log(correctAnswer, 'correctAnswer');
       setSelectedAnswer(true)
     } else {
       setSelectedAnswer(false)
@@ -84,7 +100,7 @@ export default function InteractiveTesting ({click}) {
             <span className="active-question-no">{addLeadingZero(activeQuestion + 1)}</span>
             <span className="total-question">/{addLeadingZero(questions.length)}</span>
           </div>
-          <h2>{question}</h2>
+          <h2>{question_name}</h2>
           <ul>
             {choices.map((answer, index) => (
               <li

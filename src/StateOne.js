@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './css/StateOne.module.css';
 import { useState, useEffect } from "react";
-const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerDataGot, setVideoData, setInteractivesArr, setPlayBtnIsClicked }) => {
+const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerDataGot, setVideoData, setInteractivesArr, setPlayBtnIsClicked, setIframeIsShown }) => {
   const [newCourse, setNewCourse] = useState(false);
   const [stateOneData, setStateOneData] = useState({
     heading: "",
@@ -71,6 +71,10 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
           setPlayBtnIsClicked(true);
       })
   }
+
+  const showIFrameHandler = () => {
+    setIframeIsShown(true);
+  };
   return (
     <div>
        <p className={styles.title}>КОНСТРУКТОР</p>
@@ -84,6 +88,7 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
                 <button className={styles['edit-btn']} onClick={(event) => editInteractiveHandler(event, elem['video_course_id'])}>Edit</button>
                 <button className={styles['delete-btn']} onClick={(event) => deleteInteractiveHandler(event, elem['video_course_id'])}>Delete</button>
                 <button className={styles['play-btn']} onClick={() => showVideoCourseHandler(elem['video_course_id'])}>Preview</button>
+                <button className={styles['iframe-btn']} onClick={() => showIFrameHandler(elem['video_course_id'])}>Iframe</button>
               </div>
             </div>
           ))}
