@@ -29,7 +29,6 @@
 }
 .iframe-btn {
     background-color: black;
-
 }
 .edit-btn, .delete-btn, .play-btn, .iframe-btn {
     color: white;
@@ -62,6 +61,12 @@
     display: flex;
     justify-content: center;
 }
+.submit-btn {
+    padding: 0.5rem 1rem;
+    width: 20%;
+    margin: 1rem auto 0rem auto;
+
+}
 label {
     font-weight: 700;
 }
@@ -82,4 +87,37 @@ label {
 }
 .sent-words {
     color: green;
+}
+.iframe-link-modal-window {
+    position: absolute;
+    width: 470px;
+    height: 70px;
+    background-color: rgb(92, 92, 92);
+    padding: 5px;
+    border: 1px solid black;
+    z-index: 1000;
+    left: 37%;
+    
+}
+.iframe-link-modal-window textarea {
+    width: 100%;
+    height: 100%;
+    resize: none;
+    overflow-y: auto;
+    color: black;
+    background-color: rgb(228, 224, 224);
+    padding: 1rem;
+    box-sizing: border-box;
+    position: relative;
+}
+.close-btn-iframe {
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: -5px;;
+    right: 10px;
 }

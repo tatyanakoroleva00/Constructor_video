@@ -6,13 +6,11 @@ function App() {
   const [videoData, setVideoData] = useState({});
   const [interactivesArr, setInteractivesArr] = useState([]);
   const [playBtnIsClicked, setPlayBtnIsClicked] = useState(false);
-  const [iframeIsShown, setIframeIsShown] = useState(false);
 
   return (
     <div className={styles.container}>
-      <Constructor setVideoData={setVideoData} setInteractivesArr={setInteractivesArr} setPlayBtnIsClicked={setPlayBtnIsClicked} setIframeIsShown={setIframeIsShown}/>
+      <Constructor setVideoData={setVideoData} setInteractivesArr={setInteractivesArr} setPlayBtnIsClicked={setPlayBtnIsClicked}/>
       {playBtnIsClicked && <VideoCourse setPlayBtnIsClicked={setPlayBtnIsClicked} videoData={videoData} interactivesArr={interactivesArr} />}
-      <div className={styles['iframe-code']}></div>
     </div>
   );
 }

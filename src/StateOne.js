@@ -1,13 +1,15 @@
 import React from "react";
 import styles from './css/StateOne.module.css';
 import { useState, useEffect } from "react";
-const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerDataGot, setVideoData, setInteractivesArr, setPlayBtnIsClicked, setIframeIsShown }) => {
+const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerDataGot, setVideoData, setInteractivesArr, setPlayBtnIsClicked }) => {
   const [newCourse, setNewCourse] = useState(false);
   const [stateOneData, setStateOneData] = useState({
     heading: "",
     url: "",
   });
   const [courses, setCourses] = useState([]); 
+  const [iFrame, setIFrame] = useState('');
+  const [iFrameIsShown, setIFrameIsShown] = useState(false);
 
     //Подгрузка лишь вначале всех данных
     useEffect(() => {
@@ -26,6 +28,7 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
   const submitFormHandler = (event) => {
     event.preventDefault();
     setGlobalData({'heading' : stateOneData['heading'], 'url' : stateOneData['url']});
+    setSwitchStates(true);
   }
 
   const deleteInteractiveHandler = (event, courseId) => {
@@ -35,7 +38,6 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
       method: 'POST',
       body: JSON.stringify(courseId)
     })
-
     window.location.reload();
   }
 
@@ -72,11 +74,25 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
       })
   }
 
-  const showIFrameHandler = () => {
-    setIframeIsShown(true);
+  const showIFrameHandler = (videoCourseId) => {
+    setIFrameIsShown(true);
+    // setIFrame('<iframe src="http://videoCourseOnServer/' + videoCourseId + ' width="1200" height="800px"></iframe>');
+    setIFrame('<iframe src="http://videoCourseOnServer/" width="1200" height="800"></iframe>');
+
+    fetch('http://quiz.site/edit-videocourse-handler', {
+      method: 'POST',
+      body: JSON.stringify(Math.floor(videoCourseId))
+    })
+    .then(response => response.json())
+      .then(data => {
+        console.log(data, 'id is sent');})
   };
   return (
     <div>
+       {iFrameIsShown && <div className={styles['iframe-link-modal-window']}>
+          <textarea value={iFrame}/>
+          <button onClick={()=> setIFrameIsShown(false)} className={styles['close-btn-iframe']}><span>X</span></button>
+        </div>}
        <p className={styles.title}>КОНСТРУКТОР</p>
       
        {courses.length !== 0 && <div className={styles['courses-table']}>
@@ -94,8 +110,6 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
           ))}
           </>
         </div>}
-
-
       <div className={styles['add-new-project-wrapper']}>
         <button onClick={() => setNewCourse(true)}>Добавить проект</button>
       </div>
@@ -108,6 +122,7 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
             name="heading"
             value={stateOneData.heading}
             onChange={inputChangeHandler}
+            required
           />
           </div>
           <div className={styles['form-fields']}>
@@ -117,9 +132,10 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
             name="url"
             value={stateOneData.url}
             onChange={inputChangeHandler}
+            required
           />
           </div>
-          <button onClick={() => setSwitchStates(true)}>Create a Course</button>
+          <input className={styles['submit-btn']}  type="submit" value="Создать курс"/>
         </form>
       )}
     </div>

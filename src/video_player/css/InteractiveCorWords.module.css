@@ -12,6 +12,11 @@
 .cor-words-wrapper {
     margin: 0 auto;
 }
+.words-box {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
 .word {
     text-decoration: none;
     list-style: none;

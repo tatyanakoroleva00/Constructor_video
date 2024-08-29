@@ -1,44 +1,27 @@
 import React from 'react'
 import styles from '../css/InteractiveCorWords.module.css';
 import { useState } from 'react';
-export default function InteractiveCorWords({click}) {
+export default function InteractiveCorWords({click, interactivesArr, timeCode}) {
   const [chosenWords, setChosenWords] = useState({});
 
   const [checked, setChecked] =  useState(false);
   const [result, setResult] = useState('');
-  const correctWordsData = {
-    "task": "Выберите все слова, которые относятся к миру Гарри Поттера",
-    "word1": {
-      "word-name": "Гарри Поттер",
-      "status": "yes"
-    },
-    "word2": {
-      "word-name": "Гермиона",
-      "status": "yes"
-    },
-    "word3": {
-      "word-name": "Снейп",
-      "status": "yes"
-    },
-    "word4": {
-      "word-name": "Властелин Колец",
-      "status": "no"
-    },
-    "word5": {
-      "word-name": "Человек-паук",
-      "status": "no"
-    },
-    "word6": {
-      "word-name": "Кай и Герда",
-      "status": "no"
-    }
+
+  let data = {};
+  for (let elem of interactivesArr) {
+      if(Math.floor(timeCode) == elem['time_code']) {
+          data = elem;
+          console.log(elem['receivedInfo'], 'elem');
+      }
   }
+
+  let correctWordsData = data['receivedInfo'];
 
   let words = [];
   let correctWordsArr = [];
   for (let key in correctWordsData) {
     if (key.includes("word")) {
-      let word = correctWordsData[key]["word-name"];
+      let word = correctWordsData[key]["word_name"];
       words.push(word);
 
       let correctAnswer = correctWordsData[key]["status"];
@@ -78,7 +61,7 @@ export default function InteractiveCorWords({click}) {
     <div className={styles.container}>
       <div className={styles['cor-words-wrapper']}>
         <p>{correctWordsData.task}</p>
-        <ul>
+        <ul className={styles['words-box']}>
           {words.map((answer, index) => (
             <li className={`${chosenWords[answer]? styles.selected : styles.word}`} onClick = {() => {chooseWordHandler(answer)}}
               key={answer}>
