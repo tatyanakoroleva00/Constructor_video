@@ -77,7 +77,10 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
   const showIFrameHandler = (videoCourseId) => {
     setIFrameIsShown(true);
     // setIFrame('<iframe src="http://videoCourseOnServer/' + videoCourseId + ' width="1200" height="800px"></iframe>');
-    setIFrame('<iframe src="http://videoCourseOnServer/" width="1200" height="800"></iframe>');
+
+    const link = new URL('http://videoCourseOnServer/');
+    link.searchParams.set('courseId', videoCourseId);
+    setIFrame(`<iframe src="${link.toString()}" width="1200" height="800"></iframe>`);
 
     fetch('http://quiz.site/edit-videocourse-handler', {
       method: 'POST',
