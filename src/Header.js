@@ -41,7 +41,8 @@ const Header = ({ setInteractivesArr, setCurrentInteractive, setInitialForm, ini
           <CoursesButton key={index} btnIndex={index} setCurrentInteractive={setCurrentInteractive}/>
         ))}
       </div>
-      <div><FinishCourse serverDataGot={serverDataGot} globalData={globalData} setFinishBtnClicked={setFinishBtnClicked}/></div>
+      {interactives.length > 0 &&
+      <div><FinishCourse serverDataGot={serverDataGot} globalData={globalData} setFinishBtnClicked={setFinishBtnClicked}/></div>}
     </div>
   );
 };

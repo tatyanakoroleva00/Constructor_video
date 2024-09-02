@@ -93,8 +93,8 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
           <ExternalSourceLink sentBtn={sentBtn} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} interactiveIndex={interactiveIndex} />
         )}
       </section>
-      {!sentBtn && <button onClick={sendToGlobalDataHandler}>Send</button>}
-      {sentBtn && <p>Send</p>}
+      {!sentBtn && <button onClick={sendToGlobalDataHandler}>Сохранить</button>}
+      {sentBtn && <p>Сохранено!</p>}
     </div>
     </div>
   );
