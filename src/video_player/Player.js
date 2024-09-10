@@ -123,6 +123,7 @@ export default function Player({videoData, interactivesArr, setPlayBtnIsClicked}
 
     let videoTime = Math.floor(currentTime / 1000);
     
+    
 
     let videoUrl = videoData['url'];
     return (

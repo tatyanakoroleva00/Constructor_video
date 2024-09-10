@@ -50,10 +50,8 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data, 'to edit');
         setSwitchStates(true);
         data['id'] = courseIdGot;
-        // getData(data); //получаем данные по курсу с сервера
         setServerData(data); //задаем Сервеные данные
         setServerDataGot(true);
         setGlobalData(data);
@@ -89,6 +87,7 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
       .then(data => {
         console.log(data, 'id is sent');})
   };
+
   return (
     <div>
        {iFrameIsShown && <div className={styles['iframe-link-modal-window']}>

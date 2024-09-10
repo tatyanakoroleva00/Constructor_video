@@ -5,19 +5,36 @@ import Testing from "./Testing";
 import ExternalSourceLink from "./ExternalSourceLink";
 import CorrectWordsChoice from "./CorrectWordsChoice";
 
-const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, serverData, serverDataGot, initialForm }) => {
+const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, serverData, serverDataGot, initialForm, videoDuration }) => {
   const [interactiveData, setInteractiveData] = useState({});
   const [sentBtn, setSentBtn] = useState(false);
+  const [timeError, setTimeError] = useState(false);
 
   useEffect(() => {
-    if(serverDataGot && serverData['interactives'][interactiveIndex]) {
+    if (serverDataGot && serverData['interactives'][interactiveIndex]) {
       setInteractiveData(serverData['interactives'][interactiveIndex]);
     }
   }, [serverData['interactives']])
 
   const changeHandler = (event) => {
     const { name, value } = event.target;
-    setInteractiveData((prev) => ({ ...prev, [name]: value }));
+    if (event.target.name === 'time_code') {
+      let timeSplitted = event.target.value.split(':');
+      let minutes = Math.floor(+timeSplitted[0]);
+      let secondsInMinutes = minutes * 60;
+      let seconds = Math.floor(+timeSplitted[1]);
+      let convertedTime = secondsInMinutes + seconds;
+
+      if (convertedTime > videoDuration) {
+        setTimeError(true);
+
+      } else {
+        setTimeError(false);
+        setInteractiveData((prev) => ({ ...prev, [event.target.name]: convertedTime }));
+      }
+    } else {
+      setInteractiveData((prev) => ({ ...prev, [name]: value }));
+    }
   }
   const sendToGlobalDataHandler = () => {
     setInteractives((prev) => [...prev, interactiveData]);
@@ -28,12 +45,12 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
   };
 
   return (
-    <div className={`${initialForm && styles.invisible }`}>
-    <div
-      className={`${interactiveIndex !== +currentInteractive && styles.invisible}`}>
-      <section>
+    <div className={`${initialForm && styles.invisible}`}>
+      <div
+        className={`${interactiveIndex !== +currentInteractive && styles.invisible}`}>
+        <section>
 
-      {!serverDataGot && <div className={styles.block}>
+          {!serverDataGot && <div className={styles.block}>
             <label>Тип интерактива:&nbsp;</label>
             <select name="interactive_type" onChange={changeHandler} defaultValue='Выберите из списка'>
               <option hidden value="Выберите из списка"> Выберите из списка...</option>
@@ -44,8 +61,8 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
               </option>
             </select>
           </div>
-        }
-        {!serverDataGot && <div className={styles.block}>
+          }
+          {!serverDataGot && <div className={timeError ? styles['input-error']: styles.block}>
             <label>TimeCode:&nbsp;</label>
             <input
               type="text"
@@ -57,22 +74,22 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
             />
           </div>}
 
-        {serverDataGot &&
-          <div className={styles.block}>
-            <label>Тип интерактива:&nbsp;</label>
-            <select name="interactive_type" onChange={changeHandler} disabled={serverData['interactives'][interactiveIndex]? true : false} 
-            defaultValue={`${serverData['interactives'][interactiveIndex]? serverData['interactives'][interactiveIndex]['interactive_type'] : interactiveData['interactive_type']}`}>
-              <option hidden value="Выберите из списка"> Выберите из списка...</option>
-              <option value="testing">Тестирование</option>
-              <option value="correctWordsChoice">Выбор правильных слов</option>
-              <option value="externalSourceLink">
-                Ссылка на внешний источник
-              </option>
-            </select>
-          </div>
-        }
+          {serverDataGot &&
+            <div className={styles.block}>
+              <label>Тип интерактива:&nbsp;</label>
+              <select name="interactive_type" onChange={changeHandler} disabled={serverData['interactives'][interactiveIndex] ? true : false}
+                defaultValue={`${serverData['interactives'][interactiveIndex] ? serverData['interactives'][interactiveIndex]['interactive_type'] : interactiveData['interactive_type']}`}>
+                <option hidden value="Выберите из списка"> Выберите из списка...</option>
+                <option value="testing">Тестирование</option>
+                <option value="correctWordsChoice">Выбор правильных слов</option>
+                <option value="externalSourceLink">
+                  Ссылка на внешний источник
+                </option>
+              </select>
+            </div>
+          }
 
-        {serverDataGot && <div className={styles.block}>
+          {serverDataGot && <div className={styles.block}>
             <label>TimeCode:&nbsp;</label>
             <input defaultValue={`${serverData['interactives'][interactiveIndex] ? serverData['interactives'][interactiveIndex]['time_code'] : ''}`}
               type="text"
@@ -83,19 +100,19 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
               maxLength={5}
             />
           </div>}
-      </section>
-      <section>
-        {interactiveData["interactive_type"] === "testing" && <Testing interactiveIndex={interactiveIndex} sentBtn={sentBtn} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} />}
-        {interactiveData["interactive_type"] === "correctWordsChoice" && (
-          <CorrectWordsChoice sentBtn={sentBtn} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} interactiveIndex={interactiveIndex} />
-        )}
-        {interactiveData["interactive_type"] === "externalSourceLink" && (
-          <ExternalSourceLink sentBtn={sentBtn} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} interactiveIndex={interactiveIndex} />
-        )}
-      </section>
-      {!sentBtn && <button onClick={sendToGlobalDataHandler}>Сохранить</button>}
-      {sentBtn && <p>Сохранено!</p>}
-    </div>
+        </section>
+        <section>
+          {(interactiveData["interactive_type"] === "testing") && <Testing interactiveIndex={interactiveIndex} sentBtn={sentBtn} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} />}
+          {(interactiveData["interactive_type"] === "correctWordsChoice") && (
+            <CorrectWordsChoice sentBtn={sentBtn} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} interactiveIndex={interactiveIndex} />
+          )}
+          {(interactiveData["interactive_type"] === "externalSourceLink") && (
+            <ExternalSourceLink sentBtn={sentBtn} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} interactiveIndex={interactiveIndex} />
+          )}
+        </section>
+        {!sentBtn && <button onClick={sendToGlobalDataHandler}>Сохранить</button>}
+        {sentBtn && <p>Сохранено!</p>}
+      </div>
     </div>
   );
 };

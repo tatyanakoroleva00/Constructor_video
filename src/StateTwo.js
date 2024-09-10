@@ -9,7 +9,7 @@ const StateTwo = ({globalData, setGlobalData, serverData, serverDataGot}) => {
   const [currentInteractive, setCurrentInteractive] = useState(0);
   const [initialForm, setInitialForm] = useState(false);
   const [interactives, setInteractives] = useState([]);
-  const [finishBtnClicked, setFinishBtnClicked] = useState(false)
+  const [finishBtnClicked, setFinishBtnClicked] = useState(false);
 
       //Здесь все интерактивы добавляются в глобальные данные
   useEffect(() => {
@@ -32,7 +32,7 @@ const StateTwo = ({globalData, setGlobalData, serverData, serverDataGot}) => {
         setCurrentInteractive={setCurrentInteractive} setFinishBtnClicked={setFinishBtnClicked}
         setInitialForm={setInitialForm} initialForm={initialForm} setInteractives={setInteractives} interactives={interactives} serverData={serverData} serverDataGot={serverDataGot}
       />
-      {initialForm && <InitialDataForm globalData={globalData} setGlobalData={setGlobalData} />}
+      {initialForm && <InitialDataForm globalData={globalData} setGlobalData={setGlobalData}/>}
       {interactivesArr.map((interactive, index) => (
         <Interactive
           key={index}
