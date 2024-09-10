@@ -5,7 +5,7 @@ import Testing from "./Testing";
 import ExternalSourceLink from "./ExternalSourceLink";
 import CorrectWordsChoice from "./CorrectWordsChoice";
 
-const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, serverData, serverDataGot, initialForm, videoDuration }) => {
+const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, serverData, serverDataGot, initialForm, videoDuration}) => {
   const [interactiveData, setInteractiveData] = useState({});
   const [sentBtn, setSentBtn] = useState(false);
   const [timeError, setTimeError] = useState(false);
@@ -102,11 +102,11 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
           </div>}
         </section>
         <section>
-          {(interactiveData["interactive_type"] === "testing") && <Testing interactiveIndex={interactiveIndex} sentBtn={sentBtn} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} />}
-          {(interactiveData["interactive_type"] === "correctWordsChoice") && (
+          {(!timeError && interactiveData["interactive_type"] === "testing") && <Testing interactiveIndex={interactiveIndex} sentBtn={sentBtn} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} />}
+          {(!timeError && interactiveData["interactive_type"] === "correctWordsChoice") && (
             <CorrectWordsChoice sentBtn={sentBtn} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} interactiveIndex={interactiveIndex} />
           )}
-          {(interactiveData["interactive_type"] === "externalSourceLink") && (
+          {(!timeError && interactiveData["interactive_type"] === "externalSourceLink") && (
             <ExternalSourceLink sentBtn={sentBtn} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} interactiveIndex={interactiveIndex} />
           )}
         </section>

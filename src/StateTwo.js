@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Interactive from "./Interactives/Interactive";
 import InitialDataForm from "./InitialDataForm";
 import styles from './css/StateOne.module.css';
-const StateTwo = ({globalData, setGlobalData, serverData, serverDataGot}) => {
+const StateTwo = ({globalData, setGlobalData, serverData, serverDataGot, videoDuration }) => {
   const [interactivesArr, setInteractivesArr] = useState([1]);
   const [currentInteractive, setCurrentInteractive] = useState(0);
   const [initialForm, setInitialForm] = useState(false);
@@ -43,6 +43,7 @@ const StateTwo = ({globalData, setGlobalData, serverData, serverDataGot}) => {
           serverData={serverData} serverDataGot={serverDataGot}
           setInitialForm={setInitialForm}
           initialForm={initialForm}
+          videoDuration={videoDuration}
         />
       ))}
     </div>
