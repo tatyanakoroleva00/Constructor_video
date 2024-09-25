@@ -30,7 +30,8 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
 
       } else {
         setTimeError(false);
-        setInteractiveData((prev) => ({ ...prev, [event.target.name]: convertedTime }));
+        // setInteractiveData((prev) => ({ ...prev, [event.target.name]: convertedTime }));
+        setInteractiveData((prev) => ({ ...prev, [event.target.name]: event.target.value}));
       }
     } else {
       setInteractiveData((prev) => ({ ...prev, [name]: value }));
@@ -110,7 +111,7 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
             <ExternalSourceLink sentBtn={sentBtn} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} interactiveIndex={interactiveIndex} />
           )}
         </section>
-        {!sentBtn && <button onClick={sendToGlobalDataHandler}>Сохранить</button>}
+        {!sentBtn && !timeError && <button onClick={sendToGlobalDataHandler}>Сохранить</button>}
         {sentBtn && <p>Сохранено!</p>}
       </div>
     </div>

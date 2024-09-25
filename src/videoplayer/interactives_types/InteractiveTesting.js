@@ -1,13 +1,21 @@
 import { useState } from 'react';
 import '../css/interactive_testing.css';
 
-export default function InteractiveTesting ({click, timeCode, interactivesArr}) {
+export default function InteractiveTesting ({click, timeCode, interactivesArr, fullScreen}) {
 
   let data = {};
   for (let elem of interactivesArr) {
-      if(Math.floor(timeCode) == elem['time_code']) {
+
+    let episodeTime = elem['time_code'];
+    let timeSplitted = episodeTime.split(':');
+    let minutes = Math.floor(+timeSplitted[0]);
+    let secondsInMinutes = minutes * 60;
+    let seconds = Math.floor(+timeSplitted[1]);
+    let resultTime = secondsInMinutes + seconds;
+
+    if (Math.floor(timeCode) == resultTime) {
           data = elem;
-          console.log(elem['receivedInfo'], 'elem');
+          // console.log(elem['receivedInfo'], 'elem');
       }
   }
 
@@ -81,9 +89,9 @@ export default function InteractiveTesting ({click, timeCode, interactivesArr}) 
   const onAnswerSelected = (answer, index) => {
     setSelectedAnswerIndex(index);
     let chosenAnswer = index + 1;
-    console.log(chosenAnswer, 'answerindex');
+    // console.log(chosenAnswer, 'answerindex');
    if (chosenAnswer === Math.floor(correctAnswer)) {
-    console.log(correctAnswer, 'correctAnswer');
+    // console.log(correctAnswer, 'correctAnswer');
       setSelectedAnswer(true)
     } else {
       setSelectedAnswer(false)
@@ -93,9 +101,10 @@ export default function InteractiveTesting ({click, timeCode, interactivesArr}) 
   const addLeadingZero = (number) => (number > 9 ? number : `0${number}`)
 
   return (
-    <div className="quiz-container">
+    <div className={`${fullScreen  ? 'container-fullscreen' : 'quiz-container'}`}>
       {!showResult ? (
         <div>
+          <div><button className={'hide-interactive-btn'} onClick={click}> X </button></div>
           <div>
             <span className="active-question-no">{addLeadingZero(activeQuestion + 1)}</span>
             <span className="total-question">/{addLeadingZero(questions.length)}</span>
@@ -105,14 +114,14 @@ export default function InteractiveTesting ({click, timeCode, interactivesArr}) 
             {choices.map((answer, index) => (
               <li
                 onClick={() => onAnswerSelected(answer, index)}
-                key={answer}
+                key={answer + index}
                 className={selectedAnswerIndex === index ? 'selected-answer' : null}>
                 {answer}
               </li>
             ))}
           </ul>
           <div className="flex-right">
-            <button onClick={onClickNext} disabled={selectedAnswerIndex === null}>
+            <button className='next-btn' onClick={onClickNext} disabled={selectedAnswerIndex === null}>
               {activeQuestion === questions.length - 1 ? 'Завершить' : 'Далее'}
             </button>
           </div>
@@ -132,7 +141,7 @@ export default function InteractiveTesting ({click, timeCode, interactivesArr}) 
           <p>
             Неправильные ответы:<span> {result.wrongAnswers}</span>
           </p>
-          <button onClick={click}>Продолжить</button>
+          <button className='continue-btn' onClick={click}>Продолжить</button>
         </div>
       )}
     </div>

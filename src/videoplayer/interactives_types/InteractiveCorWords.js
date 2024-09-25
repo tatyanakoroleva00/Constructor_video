@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from '../css/InteractiveCorWords.module.css';
 import { useState } from 'react';
-export default function InteractiveCorWords({click, interactivesArr, timeCode}) {
+export default function InteractiveCorWords({click, interactivesArr, timeCode, fullScreen}) {
   const [chosenWords, setChosenWords] = useState({});
 
   const [checked, setChecked] =  useState(false);
@@ -9,7 +9,14 @@ export default function InteractiveCorWords({click, interactivesArr, timeCode}) 
 
   let data = {};
   for (let elem of interactivesArr) {
-      if(Math.floor(timeCode) == elem['time_code']) {
+    let episodeTime = elem['time_code'];
+    let timeSplitted = episodeTime.split(':');
+    let minutes = Math.floor(+timeSplitted[0]);
+    let secondsInMinutes = minutes * 60;
+    let seconds = Math.floor(+timeSplitted[1]);
+    let resultTime = secondsInMinutes + seconds;
+
+    if (Math.floor(timeCode) == resultTime) {
           data = elem;
           console.log(elem['receivedInfo'], 'elem');
       }
@@ -57,9 +64,11 @@ export default function InteractiveCorWords({click, interactivesArr, timeCode}) 
     }
   };
 
+
   return (
-    <div className={styles.container}>
+    <div className={`${fullScreen ? styles['container-fullscreen'] : styles.container}`}>
       <div className={styles['cor-words-wrapper']}>
+      <div><button className={'hide-interactive-btn'} onClick={click}> X </button></div>
         <p>{correctWordsData.task}</p>
         <ul className={styles['words-box']}>
           {words.map((answer, index) => (
@@ -69,13 +78,12 @@ export default function InteractiveCorWords({click, interactivesArr, timeCode}) 
             </li>
           ))}
         </ul>
-        <button onClick={checkResultHandler} className={styles['check-button']}>Проверить</button>
+        {!checked && <button onClick={checkResultHandler} className={styles['check-button']}>Проверить</button>}
         {checked &&
         <>
         <p>Результат: {result} </p>
         <button className={styles['next-button']} onClick={click}>Продолжить</button>
         </>}
-        
       </div>
     </div>
   )
