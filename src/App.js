@@ -1,22 +1,23 @@
 import Constructor from "./Constructor";
-// import VideoCourse from './VideoCourse';
 import { useState } from "react";
 import styles from './css/App.module.css';
 function App() {
-  const [videoData, setVideoData] = useState({});
-  const [interactivesArr, setInteractivesArr] = useState([]);
   const [playBtnIsClicked, setPlayBtnIsClicked] = useState(false);
+  const [videoCourseId, setVideoCourseId] = useState('');
 
+  let source = 'http://quiz.site/videocourses/?courseId=' + videoCourseId;
+  console.log(videoCourseId, 'id');
+
+  // src={`http://quiz.site/videocourses/?courseId=906`}
   return (
-    <div className={styles['constructor-page']}>
-    <div className={styles.container}>
-      <Constructor playBtnIsClicked={playBtnIsClicked} setVideoData={setVideoData} setInteractivesArr={setInteractivesArr} setPlayBtnIsClicked={setPlayBtnIsClicked}/>
-      {/* {playBtnIsClicked && <VideoCourse setPlayBtnIsClicked={setPlayBtnIsClicked} videoData={videoData} interactivesArr={interactivesArr} />} */}
+    <>
+    <div className={styles['constructor-wrapper']}>
+      <Constructor playBtnIsClicked={playBtnIsClicked} setPlayBtnIsClicked={setPlayBtnIsClicked} setVideoCourseId={setVideoCourseId}/>
     </div>
-    {playBtnIsClicked && <div className={styles['iframe-wrapper']}>
-      <iframe src="http://quiz.site/videocourses/?courseId=928" width={800} height="100%" scrolling="no"></iframe>
-    </div>}
+    <div className={styles['iframe-wrapper']}>
+    {playBtnIsClicked && <iframe src={source}  width={800} height={900} scrolling="no" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>}
     </div>
+    </>
   );
 }
 
