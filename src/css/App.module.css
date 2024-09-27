@@ -1,4 +1,14 @@
+.constructor-page {
+    display: flex;
+    justify-content: space-around;
+    gap: 1rem;
+    width: 90vw;
+}
 .container {
     display: flex;
-    gap: 1rem;
+    flex: 1;
+}
+iframe {
+    height: 900px;
+    border: none;
 }

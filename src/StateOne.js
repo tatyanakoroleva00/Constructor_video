@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './css/StateOne.module.css';
 import { useState, useEffect } from "react";
-const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerDataGot, setVideoData, setInteractivesArr, setPlayBtnIsClicked }) => {
+const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerDataGot, setVideoData, setInteractivesArr, setPlayBtnIsClicked, playBtnIsClicked }) => {
   const [newCourse, setNewCourse] = useState(false);
   const [stateOneData, setStateOneData] = useState({
     heading: "",
@@ -68,7 +68,7 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
           // console.log(data, 'data');
           setVideoData(data);
           setInteractivesArr(data.interactives);
-          setPlayBtnIsClicked(true);
+          setPlayBtnIsClicked(!playBtnIsClicked);
       })
   }
 

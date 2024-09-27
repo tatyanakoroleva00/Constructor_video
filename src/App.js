@@ -1,5 +1,5 @@
 import Constructor from "./Constructor";
-import VideoCourse from './VideoCourse';
+// import VideoCourse from './VideoCourse';
 import { useState } from "react";
 import styles from './css/App.module.css';
 function App() {
@@ -8,9 +8,14 @@ function App() {
   const [playBtnIsClicked, setPlayBtnIsClicked] = useState(false);
 
   return (
+    <div className={styles['constructor-page']}>
     <div className={styles.container}>
-      <Constructor setVideoData={setVideoData} setInteractivesArr={setInteractivesArr} setPlayBtnIsClicked={setPlayBtnIsClicked}/>
-      {playBtnIsClicked && <VideoCourse setPlayBtnIsClicked={setPlayBtnIsClicked} videoData={videoData} interactivesArr={interactivesArr} />}
+      <Constructor playBtnIsClicked={playBtnIsClicked} setVideoData={setVideoData} setInteractivesArr={setInteractivesArr} setPlayBtnIsClicked={setPlayBtnIsClicked}/>
+      {/* {playBtnIsClicked && <VideoCourse setPlayBtnIsClicked={setPlayBtnIsClicked} videoData={videoData} interactivesArr={interactivesArr} />} */}
+    </div>
+    {playBtnIsClicked && <div className={styles['iframe-wrapper']}>
+      <iframe src="http://quiz.site/videocourses/?courseId=928" width={800} height="100%" scrolling="no"></iframe>
+    </div>}
     </div>
   );
 }
