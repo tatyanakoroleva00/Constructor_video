@@ -121,7 +121,7 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
             required
           />
           </div>
-          <input className={styles['submit-btn']}  type="submit" value="Создать курс"/>
+          <input className={styles['submit-btn']}  type="submit" value="Создать проект"/>
         </form>
       )}
     </div>

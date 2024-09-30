@@ -48,7 +48,7 @@ const StateTwo = ({globalData, setGlobalData, serverData, serverDataGot, videoDu
       ))}
     </div>
     {finishBtnClicked && <div>
-      <p>{serverDataGot ? 'Изменения сохранены' : 'Курс создан'}</p>
+      <p>{serverDataGot ? 'Изменения сохранены' : 'Проект создан'}</p>
     </div>}
     </>
   );

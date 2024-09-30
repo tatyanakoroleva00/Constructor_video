@@ -24,7 +24,7 @@ const FinishCourse = ({globalData, serverDataGot, setFinishBtnClicked}) => {
 
   return (
     <>
-    {!serverDataGot && <button className={styles['finish-button']} onClick={finishCourseHandler}>Завершить курс</button>}
+    {!serverDataGot && <button className={styles['finish-button']} onClick={finishCourseHandler}>Завершить проект</button>}
     {serverDataGot && <button className={styles['finish-button']} onClick={finishCourseHandler}>Сохранить изменения</button>}
     </>
   )
