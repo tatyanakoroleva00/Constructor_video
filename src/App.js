@@ -6,9 +6,6 @@ function App() {
   const [videoCourseId, setVideoCourseId] = useState('');
 
   let source = 'http://quiz.site/videocourses/?courseId=' + videoCourseId;
-  // console.log(videoCourseId, 'id');
-
-  // src={`http://quiz.site/videocourses/?courseId=906`}
   return (
     <div className={styles['page-container']}>
     <div className={styles['constructor-wrapper']}>
