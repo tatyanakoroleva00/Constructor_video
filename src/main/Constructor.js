@@ -1,7 +1,7 @@
 import StateOne from "./StateOne";
 import StateTwo from "./StateTwo";
 import { useState, useEffect } from "react";
-import styles from './css/Constructor.module.css';
+import styles from '../css/Constructor.module.css';
 
 const Constructor = ({ setVideoData, setPlayBtnIsClicked, playBtnIsClicked, setVideoCourseId }) => {
   const [switchStates, setSwitchStates] = useState(false);

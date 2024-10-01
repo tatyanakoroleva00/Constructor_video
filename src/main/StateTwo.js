@@ -1,9 +1,9 @@
 import React from "react";
 import Header from "./Header";
 import { useState, useEffect } from "react";
-import Interactive from "./Interactives/Interactive";
+import Interactive from "../Interactives/Interactive";
 import InitialDataForm from "./InitialDataForm";
-import styles from './css/StateOne.module.css';
+import styles from '../css/StateOne.module.css';
 const StateTwo = ({globalData, setGlobalData, serverData, serverDataGot, videoDuration }) => {
   const [interactivesArr, setInteractivesArr] = useState([1]);
   const [currentInteractive, setCurrentInteractive] = useState(0);

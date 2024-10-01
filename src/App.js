@@ -1,4 +1,4 @@
-import Constructor from "./Constructor";
+import Constructor from "./main/Constructor";
 import { useState } from "react";
 import styles from './css/App.module.css';
 function App() {

@@ -1,11 +1,11 @@
 import React from "react";
-import InitialData from "./Buttons/InitialData";
-import FinishCourse from "./Buttons/FinishCourse";
-import AddCourse from "./Buttons/AddCourse";
-import DeleteCourse from "./Buttons/DeleteCourse";
+import InitialData from "../Buttons/InitialData";
+import FinishCourse from "../Buttons/FinishCourse";
+import AddCourse from "../Buttons/AddCourse";
+import DeleteCourse from "../Buttons/DeleteCourse";
 import { useState, useEffect } from "react";
-import CoursesButton from "./Buttons/CoursesButton";
-import styles from './css/Buttons.module.css';
+import CoursesButton from "../Buttons/CoursesButton";
+import styles from '../css/Buttons.module.css';
 
 const Header = ({ setInteractivesArr, setAddNeInteractiveBtnIsClicked, setCurrentInteractive, setInitialForm, initialForm, setInteractives, interactives, globalData, serverDataGot, serverData, setFinishBtnClicked }) => {
   const [coursesButtonsArr, setCoursesButtonsArr] = useState([]);

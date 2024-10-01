@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './css/StateOne.module.css';
+import styles from '../css/StateOne.module.css';
 import { useState, useEffect } from "react";
 const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerDataGot, setPlayBtnIsClicked, playBtnIsClicked, videoCourseId, setVideoCourseId }) => {
   const [newCourse, setNewCourse] = useState(false);
