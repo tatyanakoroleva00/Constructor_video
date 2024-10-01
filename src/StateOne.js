@@ -79,7 +79,6 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
   return (
     <div>
        <p className={styles.title}>КОНСТРУКТОР</p>
-      
        {courses.length !== 0 && <div className={styles['courses-table']}>
           <>
           {iFrameIsShown && <div className={styles['iframe-link-modal-window']}>
@@ -97,7 +96,6 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
                 <button className={styles['iframe-btn']} onClick={() => showIFrameHandler(elem['video_course_id'])}>Iframe</button>
               </div>
             </div>
-            
           </div>
           ))}
           </>

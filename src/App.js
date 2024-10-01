@@ -10,14 +10,14 @@ function App() {
 
   // src={`http://quiz.site/videocourses/?courseId=906`}
   return (
-    <>
+    <div className={styles['page-container']}>
     <div className={styles['constructor-wrapper']}>
       <Constructor playBtnIsClicked={playBtnIsClicked} setPlayBtnIsClicked={setPlayBtnIsClicked} setVideoCourseId={setVideoCourseId} videoCourseId={videoCourseId} />
     </div>
     <div className={styles['iframe-wrapper']}>
     {playBtnIsClicked && <iframe src={source}  width={800} height={900} scrolling="no" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>}
     </div>
-    </>
+    </div>
   );
 }
 
