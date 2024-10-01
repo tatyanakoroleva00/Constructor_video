@@ -10,6 +10,7 @@ const StateTwo = ({globalData, setGlobalData, serverData, serverDataGot, videoDu
   const [initialForm, setInitialForm] = useState(false);
   const [interactives, setInteractives] = useState([]);
   const [finishBtnClicked, setFinishBtnClicked] = useState(false);
+  const [addNewInteractiveBtnIsClicked, setAddNeInteractiveBtnIsClicked] = useState(false);
 
       //Здесь все интерактивы добавляются в глобальные данные
   useEffect(() => {
@@ -27,11 +28,10 @@ const StateTwo = ({globalData, setGlobalData, serverData, serverDataGot, videoDu
     <>
     <div className={`${finishBtnClicked && styles.hidden}`}>
       {globalData['heading'] && <h1 className={styles.title}>{globalData['heading']}</h1>}
-      <Header
-        setInteractivesArr={setInteractivesArr} globalData={globalData}
+      <Header setInteractivesArr={setInteractivesArr} globalData={globalData}
         setCurrentInteractive={setCurrentInteractive} setFinishBtnClicked={setFinishBtnClicked}
         setInitialForm={setInitialForm} initialForm={initialForm} setInteractives={setInteractives} interactives={interactives} serverData={serverData} serverDataGot={serverDataGot}
-      />
+        setAddNeInteractiveBtnIsClicked={setAddNeInteractiveBtnIsClicked}/>
       {initialForm && <InitialDataForm globalData={globalData} setGlobalData={setGlobalData}/>}
       {interactivesArr.map((interactive, index) => (
         <Interactive

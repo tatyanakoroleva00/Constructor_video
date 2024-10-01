@@ -7,15 +7,17 @@ import { useState, useEffect } from "react";
 import CoursesButton from "./Buttons/CoursesButton";
 import styles from './css/Buttons.module.css';
 
-const Header = ({ setInteractivesArr, setCurrentInteractive, setInitialForm, initialForm, setInteractives, interactives, globalData, serverDataGot, serverData, setFinishBtnClicked }) => {
-  const [coursesButtonsArr, setCoursesButtonsArr] = useState([1]);
+const Header = ({ setInteractivesArr, setAddNeInteractiveBtnIsClicked, setCurrentInteractive, setInitialForm, initialForm, setInteractives, interactives, globalData, serverDataGot, serverData, setFinishBtnClicked }) => {
+  const [coursesButtonsArr, setCoursesButtonsArr] = useState([]);
   const [initialData, setInitialData] = useState(false);
+  const [activeBtn, setActiveBtn] = useState(0);
 
   useEffect(() => {
     setInteractivesArr(coursesButtonsArr);
   }, [coursesButtonsArr]);
 
   const addCourseHandler = () => {
+    setAddNeInteractiveBtnIsClicked(true);
     setCoursesButtonsArr((prev) => [...prev, 1]);
   };
   const deleteCourseHandler = () => {
@@ -37,12 +39,14 @@ const Header = ({ setInteractivesArr, setCurrentInteractive, setInitialForm, ini
         {interactives.length > 0 &&
           <div><FinishCourse serverDataGot={serverDataGot} globalData={globalData} setFinishBtnClicked={setFinishBtnClicked} /></div>}
         </div>
-        <div><AddCourse addCourse={addCourseHandler} />
-          <DeleteCourse deleteCourse={deleteCourseHandler} /></div>
+        <div>
+          {!initialForm && <AddCourse addCourse={addCourseHandler} />}
+          {!initialForm && interactives.length > 0 && <DeleteCourse deleteCourse={deleteCourseHandler} />}
+        </div>
       </div>
       <div>
-        {coursesButtonsArr.map((_, index) => (
-          <CoursesButton key={index} btnIndex={index} setCurrentInteractive={setCurrentInteractive} />
+        {!initialForm && coursesButtonsArr.map((_, index) => (
+          <CoursesButton activeBtn={activeBtn} setActiveBtn={setActiveBtn} index={index} key={index} btnIndex={index} setCurrentInteractive={setCurrentInteractive} />
         ))}
       </div>
     </div>

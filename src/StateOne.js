@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './css/StateOne.module.css';
 import { useState, useEffect } from "react";
-const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerDataGot, setPlayBtnIsClicked, playBtnIsClicked, setVideoCourseId }) => {
+const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerDataGot, setPlayBtnIsClicked, playBtnIsClicked, videoCourseId, setVideoCourseId }) => {
   const [newCourse, setNewCourse] = useState(false);
   const [stateOneData, setStateOneData] = useState({
     heading: "",
@@ -10,6 +10,7 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
   const [courses, setCourses] = useState([]); 
   const [iFrame, setIFrame] = useState('');
   const [iFrameIsShown, setIFrameIsShown] = useState(false);
+  const [chosenId, setChosenId] = useState('');
 
   //Подгрузка лишь вначале всех данных
   useEffect(() => {
@@ -57,13 +58,18 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
       })
   }
   //Показываем preview курса рядом с конструктором
-  const showVideoCourseHandler = (videoCourseId) => {
-    setVideoCourseId(videoCourseId);
-    setPlayBtnIsClicked(!playBtnIsClicked);
+  const showVideoCourseHandler = (videoCourse) => {
+    setChosenId(videoCourse);
+    if(chosenId === videoCourse) {
+      setPlayBtnIsClicked(!playBtnIsClicked);
+    } else {
+      setPlayBtnIsClicked(false);
+      setVideoCourseId(videoCourse);
+      setPlayBtnIsClicked(true);
+    }
   }
   //Показ iframe ссылки
   const showIFrameHandler = (videoCourseId) => {
-    console.log(videoCourseId, 'idcourxe');
     setIFrameIsShown(true);
     const link = new URL('http://quiz.site/videocourses/');
     link.searchParams.set('courseId', videoCourseId);
@@ -82,7 +88,7 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
           </div>}
           {courses.map((elem, index) => (
             <div>
-            <div key={index} className={styles['table-line']}>
+            <div key={index + elem} className={styles['table-line']}>
               <span>{elem['video_course_name']}</span>
               <div className={styles['btns-row']}>
                 <button className={styles['edit-btn']} onClick={(event) => editInteractiveHandler(event, elem['video_course_id'])}>Edit</button>

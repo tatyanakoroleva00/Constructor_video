@@ -1,9 +1,11 @@
 import React from 'react'
-import styles from '../css/Buttons.module.css'
-const CoursesButton = ({btnIndex, setCurrentInteractive}) => {
+import styles from '../css/Buttons.module.css'; 
+import { useState } from 'react';
+const CoursesButton = ({btnIndex, setCurrentInteractive, index, setActiveBtn, activeBtn}) => {
+
   return (
-    <button className={styles['courses-btn']} value={btnIndex} onClick={(event) => 
-      {setCurrentInteractive(event.target.value);}}>Interactive {btnIndex + 1}</button>
+    <button className={`${activeBtn === index ? styles['active-btn'] : styles['courses-btn']}`} value={btnIndex} onClick={(event) => 
+      {setCurrentInteractive(event.target.value); setActiveBtn(index);}}>Interactive {btnIndex + 1}</button>
   )
 }
 

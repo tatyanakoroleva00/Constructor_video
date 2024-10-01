@@ -10,6 +10,11 @@
 .courses-btn:hover {
     background-color: rgba(146, 146, 250, 0.438);
 }
+.active-btn {
+    background-color: rgba(146, 146, 250, 0.438);
+    opacity: 0.8;
+    margin-right: 1rem;
+}
 .add-button {
     color: white;
     border: 1px solid  darkblue;
