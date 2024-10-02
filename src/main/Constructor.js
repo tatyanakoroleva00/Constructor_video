@@ -13,8 +13,6 @@ const Constructor = ({ setVideoData, setPlayBtnIsClicked, playBtnIsClicked, setV
   const [videoDuration, setVideoDuration] = useState(0);
   const [serverData, setServerData] = useState({});
 
-// console.log(globalData, 'gb');
-
   useEffect(() => {
     if (globalData.url) {
       const video = document.createElement('video');

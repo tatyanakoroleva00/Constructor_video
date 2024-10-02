@@ -13,6 +13,8 @@ const StateTwo = ({ globalData, setGlobalData, serverData, serverDataGot, videoD
   const [interactivesNamesArr, setInteractivesNamesArr] = useState([]);
   const [interactiveName, setInteractiveName] = useState('');
 
+
+
   console.log(currentInteractive, 'curinter');
   //Здесь все интерактивы добавляются в глобальные данные
   useEffect(() => {
@@ -35,7 +37,7 @@ const StateTwo = ({ globalData, setGlobalData, serverData, serverDataGot, videoD
         <Header setInteractivesArr={setInteractivesArr} globalData={globalData}
           setCurrentInteractive={setCurrentInteractive} setFinishBtnClicked={setFinishBtnClicked}
           setInitialForm={setInitialForm} initialForm={initialForm} setInteractives={setInteractives} interactives={interactives} serverData={serverData} serverDataGot={serverDataGot}
-          interactivesNamesArr={interactivesNamesArr} setInteractiveName={setInteractiveName} interactiveName={interactiveName} setInteractivesNamesArr={setInteractivesNamesArr}
+          interactivesNamesArr={interactivesNamesArr} setInteractiveName={setInteractiveName} interactiveName={interactiveName} setInteractivesNamesArr={setInteractivesNamesArr} currentInteractive={currentInteractive}
         />
         {initialForm && <InitialDataForm globalData={globalData} setGlobalData={setGlobalData} />}
         {interactivesArr.map((interactive, index) => (

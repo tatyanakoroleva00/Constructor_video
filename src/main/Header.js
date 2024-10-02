@@ -10,7 +10,7 @@ import Modal_Interactives from "../modal_windows/Modal_Interactives";
 
 const Header = ({ setInteractivesArr, setCurrentInteractive, setInitialForm, initialForm, setInteractives, 
   interactives, globalData, serverDataGot, serverData, setFinishBtnClicked, interactivesNamesArr, 
-  setInteractiveName, interactiveName, setInteractivesNamesArr }) => {
+  setInteractiveName, interactiveName, setInteractivesNamesArr, currentInteractive }) => {
   const [coursesButtonsArr, setCoursesButtonsArr] = useState([]);
   const [activeBtn, setActiveBtn] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,7 +46,10 @@ const Header = ({ setInteractivesArr, setCurrentInteractive, setInitialForm, ini
     setInteractivesNamesArr(prev => [...prev, interactiveName]);
     setActiveBtn(coursesButtonsArr.length);
     setIsModalOpen(false);
+    setCurrentInteractive(coursesButtonsArr.length);
   };
+
+
 
   return (
     <div>
