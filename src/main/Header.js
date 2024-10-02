@@ -6,19 +6,27 @@ import DeleteCourse from "../Buttons/DeleteCourse";
 import { useState, useEffect } from "react";
 import CoursesButton from "../Buttons/CoursesButton";
 import styles from '../css/Buttons.module.css';
+import Modal_Interactives from "../modal_windows/Modal_Interactives";
 
-const Header = ({ setInteractivesArr, setAddNeInteractiveBtnIsClicked, setCurrentInteractive, setInitialForm, initialForm, setInteractives, interactives, globalData, serverDataGot, serverData, setFinishBtnClicked }) => {
+const Header = ({ setInteractivesArr, setCurrentInteractive, setInitialForm, initialForm, setInteractives, 
+  interactives, globalData, serverDataGot, serverData, setFinishBtnClicked, interactivesNamesArr, 
+  setInteractiveName, interactiveName, setInteractivesNamesArr }) => {
   const [coursesButtonsArr, setCoursesButtonsArr] = useState([]);
-  const [initialData, setInitialData] = useState(false);
   const [activeBtn, setActiveBtn] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   useEffect(() => {
     setInteractivesArr(coursesButtonsArr);
   }, [coursesButtonsArr]);
 
+  useEffect(() => {
+    if (serverDataGot) setCoursesButtonsArr(serverData['interactives']); //OK
+    console.log(coursesButtonsArr, 'coursesBtnsArr');
+  }, [serverData['interactives']]);
+
   const addCourseHandler = () => {
-    setAddNeInteractiveBtnIsClicked(true);
-    setCoursesButtonsArr((prev) => [...prev, 1]);
+    openModal();
   };
   const deleteCourseHandler = () => {
     setCoursesButtonsArr(coursesButtonsArr.slice(0, -1));
@@ -27,17 +35,25 @@ const Header = ({ setInteractivesArr, setAddNeInteractiveBtnIsClicked, setCurren
       setInteractives(interactives.slice(0, -1));
     }
   };
-
-  useEffect(() => {
-    if (serverDataGot) setCoursesButtonsArr(serverData['interactives']); //OK
-  }, [serverData['interactives']]);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  const confirmModal = () => {
+    setCoursesButtonsArr((prev) => [...prev, 1]);
+    setInteractivesNamesArr(prev => [...prev, interactiveName]);
+    setActiveBtn(coursesButtonsArr.length);
+    setIsModalOpen(false);
+  };
 
   return (
     <div>
       <div>
-        <div className={styles['buttons-row']}><div><InitialData setInitialForm={setInitialForm} initialForm={initialForm} setInitialData={setInitialData} /></div>
-        {interactives.length > 0 &&
-          <div><FinishCourse serverDataGot={serverDataGot} globalData={globalData} setFinishBtnClicked={setFinishBtnClicked} /></div>}
+        <div className={styles['buttons-row']}><div><InitialData setInitialForm={setInitialForm} initialForm={initialForm} /></div>
+          {interactives.length > 0 &&
+            <div><FinishCourse serverDataGot={serverDataGot} globalData={globalData} setFinishBtnClicked={setFinishBtnClicked} /></div>}
         </div>
         <div>
           {!initialForm && <AddCourse addCourse={addCourseHandler} />}
@@ -46,9 +62,10 @@ const Header = ({ setInteractivesArr, setAddNeInteractiveBtnIsClicked, setCurren
       </div>
       <div>
         {!initialForm && coursesButtonsArr.map((_, index) => (
-          <CoursesButton activeBtn={activeBtn} setActiveBtn={setActiveBtn} index={index} key={index} btnIndex={index} setCurrentInteractive={setCurrentInteractive} />
+          <CoursesButton interactiveName={interactiveName} serverDataGot={serverDataGot} serverData={serverData} interactivesNamesArr={interactivesNamesArr} activeBtn={activeBtn} setActiveBtn={setActiveBtn} index={index} key={index} btnIndex={index} setCurrentInteractive={setCurrentInteractive} />
         ))}
       </div>
+      <Modal_Interactives setInteractiveName={setInteractiveName} interactivesNamesArr={interactivesNamesArr} isOpen={isModalOpen} onClose={closeModal} onConfirm={confirmModal} header="Добавить новый интерактив" message="Вы создаете новый интерактив. Несохраненные данные будут потеряны" setInteractivesNamesArr={setInteractivesNamesArr} answer1="Подтвердить" answer2="Сбросить" />
     </div>
   );
 };

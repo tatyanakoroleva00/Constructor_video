@@ -5,7 +5,7 @@ import Testing from "./Testing";
 import ExternalSourceLink from "./ExternalSourceLink";
 import CorrectWordsChoice from "./CorrectWordsChoice";
 
-const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, serverData, serverDataGot, initialForm, videoDuration}) => {
+const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, serverData, serverDataGot, initialForm, videoDuration, interactivesNamesArr}) => {
   const [interactiveData, setInteractiveData] = useState({});
   const [sentBtn, setSentBtn] = useState(false);
   const [timeError, setTimeError] = useState(false);
@@ -15,6 +15,12 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
       setInteractiveData(serverData['interactives'][interactiveIndex]);
     }
   }, [serverData['interactives']])
+
+  useEffect(() => {
+    if(interactivesNamesArr[interactiveIndex]) {
+      setInteractiveData(prev => ({...prev, interactive_name: interactivesNamesArr[interactiveIndex]}))
+    }
+  }, [interactivesNamesArr, interactiveIndex])
 
   const changeHandler = (event) => {
     const { name, value } = event.target;
@@ -30,19 +36,19 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
 
       } else {
         setTimeError(false);
-        // setInteractiveData((prev) => ({ ...prev, [event.target.name]: convertedTime }));
         setInteractiveData((prev) => ({ ...prev, [event.target.name]: event.target.value}));
       }
     } else {
       setInteractiveData((prev) => ({ ...prev, [name]: value }));
     }
   }
+  const getInteractiveDataHandler = (receivedInfo) => {
+    setInteractiveData(prev => ({ ...prev, receivedInfo }));
+  };
+
   const sendToGlobalDataHandler = () => {
     setInteractives((prev) => [...prev, interactiveData]);
     setSentBtn(true);
-  };
-  const getInteractiveDataHandler = (receivedInfo) => {
-    setInteractiveData(prev => ({ ...prev, receivedInfo }));
   };
 
   return (

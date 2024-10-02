@@ -18,7 +18,7 @@ const InitialData = ({ setInitialForm, initialForm }) => {
     <>
       {initialForm && <div>
         <button onClick={openModal} >К списку проектов</button>
-        <Modal isOpen={isModalOpen} onClose={closeModal} onConfirm={confirmModal} />
+        <Modal isOpen={isModalOpen} onClose={closeModal} onConfirm={confirmModal} header="Переход к списку проектов" message="Несохраненные данные будут потеряны. Вы готовы перейти?" answer1="Да" answer2="Нет, остаться" />
       </div>}
       <div>
         <button onClick={() => { setInitialForm(!initialForm); }}>{initialForm ? 'Вперед' : 'Назад'}</button>
