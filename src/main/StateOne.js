@@ -24,6 +24,8 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
       })
   }, [])
 
+  
+
   //Сохраняем введенные данные: url и название проекта
   const inputChangeHandler = (event) => {
     const { name, value } = event.target;

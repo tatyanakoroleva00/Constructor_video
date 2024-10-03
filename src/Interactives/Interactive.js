@@ -5,14 +5,15 @@ import Testing from "./Testing";
 import ExternalSourceLink from "./ExternalSourceLink";
 import CorrectWordsChoice from "./CorrectWordsChoice";
 
-const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, serverData, serverDataGot, initialForm, videoDuration, interactivesNamesArr}) => {
+const Interactive = ({id, onDataChange, interactiveIndex, currentInteractive, serverData, serverDataGot, initialForm, videoDuration, interactivesNamesArr}) => {
   const [interactiveData, setInteractiveData] = useState({});
   const [sentBtn, setSentBtn] = useState(false);
   const [timeError, setTimeError] = useState(false);
 
+
   useEffect(() => {
     if (serverDataGot && serverData['interactives'][interactiveIndex]) {
-      setInteractiveData(serverData['interactives'][interactiveIndex]);
+      setInteractiveData(serverData['interactives'][interactiveIndex]['data']);
     }
   }, [serverData['interactives']])
 
@@ -21,6 +22,13 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
       setInteractiveData(prev => ({...prev, interactive_name: interactivesNamesArr[interactiveIndex]}))
     }
   }, [interactivesNamesArr, interactiveIndex])
+
+
+  // Уведомляем родительский компонент об изменении данных
+  useEffect(() => {
+    onDataChange(id, interactiveData);
+  }, [interactiveData])
+
 
   const changeHandler = (event) => {
     const { name, value } = event.target;
@@ -44,11 +52,6 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
   }
   const getInteractiveDataHandler = (receivedInfo) => {
     setInteractiveData(prev => ({ ...prev, receivedInfo }));
-  };
-
-  const sendToGlobalDataHandler = () => {
-    setInteractives((prev) => [...prev, interactiveData]);
-    setSentBtn(true);
   };
 
   return (
@@ -85,7 +88,7 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
             <div className={styles.block}>
               <label>Тип интерактива:&nbsp;</label>
               <select name="interactive_type" onChange={changeHandler} disabled={serverData['interactives'][interactiveIndex] ? true : false}
-                defaultValue={`${serverData['interactives'][interactiveIndex] ? serverData['interactives'][interactiveIndex]['interactive_type'] : interactiveData['interactive_type']}`}>
+                defaultValue={`${serverData['interactives'][interactiveIndex] ? serverData['interactives'][interactiveIndex]['data']['interactive_type'] : interactiveData['interactive_type']}`}>
                 <option hidden value="Выберите из списка"> Выберите из списка...</option>
                 <option value="testing">Тестирование</option>
                 <option value="correctWordsChoice">Выбор правильных слов</option>
@@ -98,7 +101,7 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
 
           {serverDataGot && <div className={styles.block}>
             <label>TimeCode:&nbsp;</label>
-            <input defaultValue={`${serverData['interactives'][interactiveIndex] ? serverData['interactives'][interactiveIndex]['time_code'] : ''}`}
+            <input defaultValue={`${serverData['interactives'][interactiveIndex] ? serverData['interactives'][interactiveIndex]['data']['time_code'] : ''}`}
               type="text"
               name="time_code"
               onChange={changeHandler}
@@ -114,11 +117,9 @@ const Interactive = ({ interactiveIndex, currentInteractive, setInteractives, se
             <CorrectWordsChoice sentBtn={sentBtn} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} interactiveIndex={interactiveIndex} />
           )}
           {(!timeError && interactiveData["interactive_type"] === "externalSourceLink") && (
-            <ExternalSourceLink sentBtn={sentBtn} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} interactiveIndex={interactiveIndex} />
+            <ExternalSourceLink interactiveData={interactiveData} sentBtn={sentBtn} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} interactiveIndex={interactiveIndex} />
           )}
         </section>
-        {!sentBtn && !timeError && <button onClick={sendToGlobalDataHandler}>Сохранить</button>}
-        {sentBtn && <p>Сохранено!</p>}
       </div>
     </div>
   );

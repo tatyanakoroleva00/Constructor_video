@@ -13,12 +13,12 @@ const ExternalSourceLink = ({getData, serverDataGot, serverData, interactiveInde
   };
 
   useEffect(() => {
-    getData(data);   //OK
+    getData(data); 
   }, [data])
 
   useEffect(() => {
     if(serverDataGot && serverData['interactives'][interactiveIndex]) {   //OK
-    setData(serverData['interactives'][interactiveIndex]['receivedInfo']);
+    setData(serverData['interactives'][interactiveIndex]['data']['receivedInfo']);
   }}, [])
   
 

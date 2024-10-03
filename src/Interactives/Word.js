@@ -11,7 +11,7 @@ export default function Word ({order, getWordData, serverDataGot, serverData, in
   useEffect(() => {
     if(serverDataGot && serverData['interactives'][interactiveIndex]) {
       let wordWithIndex = `word${wordIndex+1}`;
-      let serverWord = serverData['interactives'][interactiveIndex]['receivedInfo'][wordWithIndex];
+      let serverWord = serverData['interactives'][interactiveIndex]['data']['receivedInfo'][wordWithIndex];
       if (serverWord) {
         setWord(serverWord);
       }
@@ -27,8 +27,6 @@ export default function Word ({order, getWordData, serverDataGot, serverData, in
   }
 
   const inputChangeHandler = (event) => {
-    // let { name, value } = event.target;
-    // setWord(prev => ({...prev, [name]: value }))
     setWord(prev => ({...prev, 'word_name' : event.target.value}));
     }
   

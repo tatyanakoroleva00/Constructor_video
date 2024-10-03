@@ -13,14 +13,13 @@ export default function Testing({ sentBtn, getData, serverData, serverDataGot, i
     getData(data);
   }, [data])
 
-
   useEffect(() => {
     if (serverDataGot && serverData['interactives'][interactiveIndex] ) {
-      let serverDataReceived = serverData['interactives'][interactiveIndex]['receivedInfo'];
+      let serverDataReceived = serverData['interactives'][interactiveIndex]['data']['receivedInfo'];
       setData(serverDataReceived);
       //Создаю счетчик для вопросов непосредственно из входящих вопросов с сервера
       let elemArr = [];
-      let elemsObj = serverData['interactives'][interactiveIndex]['receivedInfo'];
+      let elemsObj = serverData['interactives'][interactiveIndex]['data']['receivedInfo'];
       for (let key in elemsObj) {
         elemArr.push(key);
       }

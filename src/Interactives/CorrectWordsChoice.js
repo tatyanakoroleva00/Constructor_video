@@ -15,7 +15,7 @@ export default function CorrectWordsChoice ({sentBtn, serverData, serverDataGot,
 
   useEffect(() => {
     if(serverDataGot && serverData['interactives'][interactiveIndex]) {
-      let serverDataReceived = serverData['interactives'][interactiveIndex]['receivedInfo'];
+      let serverDataReceived = serverData['interactives'][interactiveIndex]['data']['receivedInfo'];
     setData(serverDataReceived);
 
     let elemArr = [];

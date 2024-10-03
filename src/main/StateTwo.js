@@ -13,31 +13,46 @@ const StateTwo = ({ globalData, setGlobalData, serverData, serverDataGot, videoD
   const [interactivesNamesArr, setInteractivesNamesArr] = useState([]);
   const [interactiveName, setInteractiveName] = useState('');
 
+  const [components, setComponents] = useState([]);
+  const [allData, setAllData] = useState([]);
 
+  // Обработчик для обновления данных из отдельных компонентов
+  const handleDataChange = (id, newData) => {
+    setAllData((prevData) =>
+      prevData.map((item) => (item.id === id ? { ...item, data: newData } : item))
+    );
+  };
 
-  console.log(currentInteractive, 'curinter');
-  //Здесь все интерактивы добавляются в глобальные данные
   useEffect(() => {
-    setGlobalData((prev) => ({ ...prev, interactives: interactives })) //OK
-  }, [interactives]);
+    setGlobalData((prev) => ({ ...prev, interactives: allData})) //OK
+    setInteractives(allData);
+  }, [allData]);
 
   useEffect(() => {
     if (serverDataGot) {
       setInteractivesArr(serverData['interactives']);
+      setAllData(serverData['interactives']);
+      
+      let newComponentsArr = serverData['interactives'].length;
+      let newArr = Array.from({ length: newComponentsArr }, (_, index) => index);
+      setComponents(newArr);
 
       for (let interactive in serverData['interactives']) {
         setInteractivesNamesArr(prev => [...prev, serverData['interactives'][interactive]['interactive_name']]);
       }
     }
   }, [serverData['interactives']])
+
   return (
     <>
       <div className={`${finishBtnClicked && styles.hidden}`}>
         {globalData['heading'] && <h1 className={styles.title}>{globalData['heading']}</h1>}
-        <Header setInteractivesArr={setInteractivesArr} globalData={globalData}
+        <Header setInteractivesArr={setInteractivesArr} globalData={globalData} 
           setCurrentInteractive={setCurrentInteractive} setFinishBtnClicked={setFinishBtnClicked}
           setInitialForm={setInitialForm} initialForm={initialForm} setInteractives={setInteractives} interactives={interactives} serverData={serverData} serverDataGot={serverDataGot}
           interactivesNamesArr={interactivesNamesArr} setInteractiveName={setInteractiveName} interactiveName={interactiveName} setInteractivesNamesArr={setInteractivesNamesArr} currentInteractive={currentInteractive}
+        components={components} setAllData={setAllData} setComponents={setComponents} allData={allData}
+        
         />
         {initialForm && <InitialDataForm globalData={globalData} setGlobalData={setGlobalData} />}
         {interactivesArr.map((interactive, index) => (
@@ -52,6 +67,9 @@ const StateTwo = ({ globalData, setGlobalData, serverData, serverDataGot, videoD
             initialForm={initialForm}
             videoDuration={videoDuration}
             interactivesNamesArr={interactivesNamesArr}
+            setAllData={setAllData}
+            id={index}
+            onDataChange={handleDataChange}
           />
         ))}
       </div>

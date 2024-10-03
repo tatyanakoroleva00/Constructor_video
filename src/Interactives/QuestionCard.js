@@ -32,7 +32,7 @@ export default function QuestionCard({questionIndex, order, getQuestionsData, se
   useEffect(() => {
     if (serverDataGot && serverData['interactives'][interactiveIndex] ) {
       let question =`question${questionIndex+1}`;
-      let serverQuestion = serverData['interactives'][interactiveIndex]['receivedInfo'][question];
+      let serverQuestion = serverData['interactives'][interactiveIndex]['data']['receivedInfo'][question];
       if(serverQuestion) {
         setQuestionCardData(serverQuestion);
       }

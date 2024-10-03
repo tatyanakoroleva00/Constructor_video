@@ -10,11 +10,10 @@ import Modal_Interactives from "../modal_windows/Modal_Interactives";
 
 const Header = ({ setInteractivesArr, setCurrentInteractive, setInitialForm, initialForm, setInteractives, 
   interactives, globalData, serverDataGot, serverData, setFinishBtnClicked, interactivesNamesArr, 
-  setInteractiveName, interactiveName, setInteractivesNamesArr, currentInteractive }) => {
-  const [coursesButtonsArr, setCoursesButtonsArr] = useState([]);
+  setInteractiveName, interactiveName, setInteractivesNamesArr, setComponents, setAllData, components, allData}) => {
   const [activeBtn, setActiveBtn] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [coursesButtonsArr, setCoursesButtonsArr] = useState([]);
 
   useEffect(() => {
     setInteractivesArr(coursesButtonsArr);
@@ -22,7 +21,6 @@ const Header = ({ setInteractivesArr, setCurrentInteractive, setInitialForm, ini
 
   useEffect(() => {
     if (serverDataGot) setCoursesButtonsArr(serverData['interactives']); //OK
-    console.log(coursesButtonsArr, 'coursesBtnsArr');
   }, [serverData['interactives']]);
 
   const addCourseHandler = () => {
@@ -30,11 +28,18 @@ const Header = ({ setInteractivesArr, setCurrentInteractive, setInitialForm, ini
   };
   const deleteCourseHandler = () => {
     setCoursesButtonsArr(coursesButtonsArr.slice(0, -1));
+    setInteractivesNamesArr(interactivesNamesArr.slice(0, -1));
+    setAllData(allData.slice(0, -1));
+    setComponents(components.slice(0, -1));
 
     if (coursesButtonsArr.length === interactives.length) {
       setInteractives(interactives.slice(0, -1));
     }
   };
+console.log('alldata', allData);
+  console.log('components', components);
+  console.log(coursesButtonsArr, 'coursesButtonsArr');
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -47,16 +52,16 @@ const Header = ({ setInteractivesArr, setCurrentInteractive, setInitialForm, ini
     setActiveBtn(coursesButtonsArr.length);
     setIsModalOpen(false);
     setCurrentInteractive(coursesButtonsArr.length);
+    const newId = components.length;
+    setComponents((prevComponents) => [...prevComponents, newId]);
+    setAllData((prevData) => [...prevData, { id: newId, data: `Data from component ${newId}` }]);
   };
-
-
 
   return (
     <div>
       <div>
         <div className={styles['buttons-row']}><div><InitialData setInitialForm={setInitialForm} initialForm={initialForm} /></div>
-          {interactives.length > 0 &&
-            <div><FinishCourse serverDataGot={serverDataGot} globalData={globalData} setFinishBtnClicked={setFinishBtnClicked} /></div>}
+            <div><FinishCourse allData={allData} serverDataGot={serverDataGot} globalData={globalData} setFinishBtnClicked={setFinishBtnClicked} /></div>
         </div>
         <div>
           {!initialForm && <AddCourse addCourse={addCourseHandler} />}
