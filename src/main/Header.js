@@ -60,7 +60,7 @@ const Header = ({ setInteractivesArr, setCurrentInteractive, setInitialForm, ini
         </div>
         <div>
           {!initialForm && <AddCourse addCourse={addCourseHandler} />}
-          {!initialForm && interactives.length > 0 && <DeleteCourse deleteCourse={deleteCourseHandler} />}
+          {!initialForm && coursesButtonsArr.length > 0 && <DeleteCourse deleteCourse={deleteCourseHandler} />}
         </div>
       </div>
       <div>
