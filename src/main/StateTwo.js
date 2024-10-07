@@ -12,22 +12,25 @@ const StateTwo = ({ globalData, setGlobalData, serverData, serverDataGot, videoD
   const [finishBtnClicked, setFinishBtnClicked] = useState(false);
   const [interactivesNamesArr, setInteractivesNamesArr] = useState([]);
   const [interactiveName, setInteractiveName] = useState('');
-
   const [components, setComponents] = useState([]);
   const [allData, setAllData] = useState([]);
 
-  // Обработчик для обновления данных из отдельных компонентов
+  // Обработчик для обновления данных из отдельных компонентов : 
   const handleDataChange = (id, newData) => {
     setAllData((prevData) =>
       prevData.map((item) => (item.id === id ? { ...item, data: newData } : item))
     );
   };
 
+  //Global Data изменяется, когда меняется какая-либо информация в allData. Мы задаем значение интерактивов - добавляя в них allData
   useEffect(() => {
     setGlobalData((prev) => ({ ...prev, interactives: allData})) //OK
     setInteractives(allData);
   }, [allData]);
 
+
+  //Единажды! Подкачиваем данные с сервера в массив с интерактивами, в allData, сразу формируем количество кнопок в setComponents + 
+  //названия интерактивов подкачиваем с сервера
   useEffect(() => {
     if (serverDataGot) {
       setInteractivesArr(serverData['interactives']);
@@ -47,6 +50,7 @@ const StateTwo = ({ globalData, setGlobalData, serverData, serverDataGot, videoD
     <>
       <div className={`${finishBtnClicked && styles.hidden}`}>
         {globalData['heading'] && <h1 className={styles.title}>{globalData['heading']}</h1>}
+        
         <Header setInteractivesArr={setInteractivesArr} globalData={globalData} 
           setCurrentInteractive={setCurrentInteractive} setFinishBtnClicked={setFinishBtnClicked}
           setInitialForm={setInitialForm} initialForm={initialForm} setInteractives={setInteractives} interactives={interactives} serverData={serverData} serverDataGot={serverDataGot}

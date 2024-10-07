@@ -7,9 +7,7 @@ import CorrectWordsChoice from "./CorrectWordsChoice";
 
 const Interactive = ({id, onDataChange, interactiveIndex, currentInteractive, serverData, serverDataGot, initialForm, videoDuration, interactivesNamesArr}) => {
   const [interactiveData, setInteractiveData] = useState({});
-  const [sentBtn, setSentBtn] = useState(false);
   const [timeError, setTimeError] = useState(false);
-
 
   useEffect(() => {
     if (serverDataGot && serverData['interactives'][interactiveIndex]) {
@@ -112,12 +110,12 @@ const Interactive = ({id, onDataChange, interactiveIndex, currentInteractive, se
           </div>}
         </section>
         <section>
-          {(!timeError && interactiveData["interactive_type"] === "testing") && <Testing interactiveIndex={interactiveIndex} sentBtn={sentBtn} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} />}
+          {(!timeError && interactiveData["interactive_type"] === "testing") && <Testing interactiveIndex={interactiveIndex} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} />}
           {(!timeError && interactiveData["interactive_type"] === "correctWordsChoice") && (
-            <CorrectWordsChoice sentBtn={sentBtn} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} interactiveIndex={interactiveIndex} />
+            <CorrectWordsChoice serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} interactiveIndex={interactiveIndex} />
           )}
           {(!timeError && interactiveData["interactive_type"] === "externalSourceLink") && (
-            <ExternalSourceLink interactiveData={interactiveData} sentBtn={sentBtn} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} interactiveIndex={interactiveIndex} />
+            <ExternalSourceLink interactiveData={interactiveData} serverData={serverData} serverDataGot={serverDataGot} getData={getInteractiveDataHandler} interactiveIndex={interactiveIndex} />
           )}
         </section>
       </div>

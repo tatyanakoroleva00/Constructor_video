@@ -27,19 +27,25 @@ const Header = ({ setInteractivesArr, setCurrentInteractive, setInitialForm, ini
     openModal();
   };
   const deleteCourseHandler = () => {
-    setCoursesButtonsArr(coursesButtonsArr.slice(0, -1));
-    setInteractivesNamesArr(interactivesNamesArr.slice(0, -1));
-    setAllData(allData.slice(0, -1));
-    setComponents(components.slice(0, -1));
+    
+    let newAllDataArr = allData.slice(0, -1);
+    setAllData(newAllDataArr);
 
-    if (coursesButtonsArr.length === interactives.length) {
-      setInteractives(interactives.slice(0, -1));
-    }
+    let newComponentsArr = components.slice(0, -1);
+    setComponents(newComponentsArr);
+
+    let newCoursesButtonsArr = coursesButtonsArr.slice(0, -1);
+    setCoursesButtonsArr(newCoursesButtonsArr);
+
+    let newInteractives = interactives.slice(0, -1);
+    setInteractives(newInteractives);
+
+    let newInteractivesNamesArr = interactivesNamesArr.slice(0, -1);
+    setInteractivesNamesArr(newInteractivesNamesArr);
   };
-console.log('alldata', allData);
-  console.log('components', components);
-  console.log(coursesButtonsArr, 'coursesButtonsArr');
 
+  console.log(allData, 'allData');
+  
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -70,7 +76,7 @@ console.log('alldata', allData);
       </div>
       <div>
         {!initialForm && coursesButtonsArr.map((_, index) => (
-          <CoursesButton interactiveName={interactiveName} serverDataGot={serverDataGot} serverData={serverData} interactivesNamesArr={interactivesNamesArr} activeBtn={activeBtn} setActiveBtn={setActiveBtn} index={index} key={index} btnIndex={index} setCurrentInteractive={setCurrentInteractive} />
+          <CoursesButton allData={allData} interactiveName={interactiveName} serverDataGot={serverDataGot} serverData={serverData} interactivesNamesArr={interactivesNamesArr} activeBtn={activeBtn} setActiveBtn={setActiveBtn} index={index} key={index} btnIndex={index} setCurrentInteractive={setCurrentInteractive} />
         ))}
       </div>
       <Modal_Interactives setInteractiveName={setInteractiveName} interactivesNamesArr={interactivesNamesArr} isOpen={isModalOpen} onClose={closeModal} onConfirm={confirmModal} header="Добавить новый интерактив" message="Вы создаете новый интерактив. Несохраненные данные будут потеряны" setInteractivesNamesArr={setInteractivesNamesArr} answer1="Подтвердить" answer2="Сбросить" />

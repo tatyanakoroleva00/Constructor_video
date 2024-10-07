@@ -3,10 +3,8 @@ import { useState, useEffect} from "react";
 import styles from '../css/CorrectWordsChoice.module.css';
 import Word from "./Word";
 
-export default function CorrectWordsChoice ({sentBtn, serverData, serverDataGot, interactiveIndex, getData}) {
-  const [data, setData] = useState({
-    task: "",
-  });
+export default function CorrectWordsChoice ({ serverData, serverDataGot, interactiveIndex, getData}) {
+  const [data, setData] = useState({task: "",});
   const [wordsArr, setWordsArr] = useState([]);
 
   useEffect(() => {
@@ -81,12 +79,11 @@ export default function CorrectWordsChoice ({sentBtn, serverData, serverDataGot,
           </div>
         ))}
 
-        {!sentBtn &&
         <div className={styles.buttons}>
         <button className={styles["add-button"]} onClick={addWordHandler}>Добавить слово</button>
         <button className={styles["remove-button"]} onClick={deleteWordHandler}>Удалить слово</button>
         </div>
-        }
+
         </div>
       </section>
 

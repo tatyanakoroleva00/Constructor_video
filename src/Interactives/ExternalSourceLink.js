@@ -17,7 +17,7 @@ const ExternalSourceLink = ({getData, serverDataGot, serverData, interactiveInde
   }, [data])
 
   useEffect(() => {
-    if(serverDataGot && serverData['interactives'][interactiveIndex]) {   //OK
+    if(serverDataGot && serverData['interactives'][interactiveIndex]) {
     setData(serverData['interactives'][interactiveIndex]['data']['receivedInfo']);
   }}, [])
   
@@ -27,7 +27,6 @@ const ExternalSourceLink = ({getData, serverDataGot, serverData, interactiveInde
     <form className={styles["external-source-form"]}>
       <p>Описание ссылки: &nbsp;</p>
 
-    {/* OK */}
     {!serverDataGot && <>   
       <textarea
         placeholder="Введите текст для ссылки"
@@ -47,7 +46,6 @@ const ExternalSourceLink = ({getData, serverDataGot, serverData, interactiveInde
       />
     </>}
 
-    {/* OK */}
       {serverDataGot && <>
         <textarea
         placeholder="Введите текст для ссылки"

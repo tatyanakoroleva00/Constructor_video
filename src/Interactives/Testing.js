@@ -3,7 +3,7 @@ import QuestionCard from "./QuestionCard";
 import { useState, useEffect } from "react";
 import styles from '../css/Testing.module.css';
 
-export default function Testing({ sentBtn, getData, serverData, serverDataGot, interactiveIndex }) {
+export default function Testing({getData, serverData, serverDataGot, interactiveIndex }) {
   const [questionsArr, setQuestionsArr] = useState([]);
   const [data, setData] = useState({});
 
@@ -53,13 +53,10 @@ export default function Testing({ sentBtn, getData, serverData, serverDataGot, i
           <QuestionCard questionIndex={index} interactiveIndex={interactiveIndex} serverData={serverData} serverDataGot={serverDataGot} order={index + 1} getQuestionsData={questionAnswersDataHandler} />
         </div>
       ))}
-
-      {!sentBtn &&
         <div className={styles['btns-wrapper']}>
           <button onClick={addQuestionHandler}>Добавить вопрос</button>
           <button onClick={removeQuestionHandler}>Удалить вопрос</button>
         </div>
-      }
     </div>
   );
 }
