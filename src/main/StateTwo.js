@@ -4,16 +4,16 @@ import { useState, useEffect } from "react";
 import Interactive from "../Interactives/Interactive";
 import InitialDataForm from "./InitialDataForm";
 import styles from '../css/StateOne.module.css';
-const StateTwo = ({ globalData, setGlobalData, serverData, serverDataGot, videoDuration }) => {
+const StateTwo = ({globalData, setGlobalData, serverData, serverDataGot, videoDuration, setServerData }) => {
   const [interactivesArr, setInteractivesArr] = useState([1]);
   const [currentInteractive, setCurrentInteractive] = useState(0);
   const [initialForm, setInitialForm] = useState(false);
-  const [interactives, setInteractives] = useState([]);
   const [finishBtnClicked, setFinishBtnClicked] = useState(false);
-  const [interactivesNamesArr, setInteractivesNamesArr] = useState([]);
   const [interactiveName, setInteractiveName] = useState('');
-  const [components, setComponents] = useState([]);
   const [allData, setAllData] = useState([]);
+  const [interactives, setInteractives] = useState([]);
+  const [components, setComponents] = useState([]);
+  const [interactivesNamesArr, setInteractivesNamesArr] = useState([]);
 
   // Обработчик для обновления данных из отдельных компонентов : 
   const handleDataChange = (id, newData) => {
@@ -32,7 +32,7 @@ const StateTwo = ({ globalData, setGlobalData, serverData, serverDataGot, videoD
   //Единажды! Подкачиваем данные с сервера в массив с интерактивами, в allData, сразу формируем количество кнопок в setComponents + 
   //названия интерактивов подкачиваем с сервера
   useEffect(() => {
-    if (serverDataGot) {
+    if (serverDataGot && serverData['interactives']) {
       setInteractivesArr(serverData['interactives']);
       setAllData(serverData['interactives']);
       
@@ -40,11 +40,16 @@ const StateTwo = ({ globalData, setGlobalData, serverData, serverDataGot, videoD
       let newArr = Array.from({ length: newComponentsArr }, (_, index) => index);
       setComponents(newArr);
 
+      let newInteractivesNamesArr = [];
       for (let interactive in serverData['interactives']) {
-        setInteractivesNamesArr(prev => [...prev, serverData['interactives'][interactive]['interactive_name']]);
+        let item = serverData['interactives'][interactive]['data']['interactive_name'];
+        newInteractivesNamesArr.push(item);
+        
       }
+      setInteractivesNamesArr(newInteractivesNamesArr);
+      
     }
-  }, [serverData['interactives']])
+  }, [serverDataGot])
 
   return (
     <>
@@ -55,7 +60,7 @@ const StateTwo = ({ globalData, setGlobalData, serverData, serverDataGot, videoD
           setCurrentInteractive={setCurrentInteractive} setFinishBtnClicked={setFinishBtnClicked}
           setInitialForm={setInitialForm} initialForm={initialForm} setInteractives={setInteractives} interactives={interactives} serverData={serverData} serverDataGot={serverDataGot}
           interactivesNamesArr={interactivesNamesArr} setInteractiveName={setInteractiveName} interactiveName={interactiveName} setInteractivesNamesArr={setInteractivesNamesArr} currentInteractive={currentInteractive}
-        components={components} setAllData={setAllData} setComponents={setComponents} allData={allData}
+        components={components} setAllData={setAllData} setComponents={setComponents} allData={allData} setServerData={setServerData}
         
         />
         {initialForm && <InitialDataForm globalData={globalData} setGlobalData={setGlobalData} />}

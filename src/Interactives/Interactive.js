@@ -52,6 +52,7 @@ const Interactive = ({id, onDataChange, interactiveIndex, currentInteractive, se
     setInteractiveData(prev => ({ ...prev, receivedInfo }));
   };
 
+
   return (
     <div className={`${initialForm && styles.invisible}`}>
       <div

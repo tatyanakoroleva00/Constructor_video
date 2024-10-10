@@ -2,7 +2,7 @@ import React from "react";
 import styles from '../css/StateOne.module.css';
 import { useState, useEffect } from "react";
 import copyBtn from '../img/copy-btn.png';
-const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerDataGot, setPlayBtnIsClicked, playBtnIsClicked, videoCourseId, setVideoCourseId }) => {
+const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerDataGot, setPlayBtnIsClicked, playBtnIsClicked, setVideoCourseId }) => {
   const [newCourse, setNewCourse] = useState(false);
   const [stateOneData, setStateOneData] = useState({
     heading: "",
@@ -23,8 +23,6 @@ const StateOne = ({ setSwitchStates, setGlobalData, setServerData, setServerData
         setCourses(data);
       })
   }, [])
-
-  
 
   //Сохраняем введенные данные: url и название проекта
   const inputChangeHandler = (event) => {

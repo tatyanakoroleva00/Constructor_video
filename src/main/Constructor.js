@@ -12,6 +12,7 @@ const Constructor = ({ setVideoData, setPlayBtnIsClicked, playBtnIsClicked, setV
   });
   const [videoDuration, setVideoDuration] = useState(0);
   const [serverData, setServerData] = useState({});
+ 
 
   useEffect(() => {
     if (globalData.url) {
@@ -27,7 +28,7 @@ const Constructor = ({ setVideoData, setPlayBtnIsClicked, playBtnIsClicked, setV
   return (
     <div className={styles['constructor-wrapper']}>
       <div className={`${switchStates && styles.invisible}`}><StateOne setVideoCourseId={setVideoCourseId} playBtnIsClicked={playBtnIsClicked} setPlayBtnIsClicked={setPlayBtnIsClicked} setVideoData={setVideoData} setServerData={setServerData} setServerDataGot={setServerDataGot} setSwitchStates={setSwitchStates} setGlobalData={setGlobalData} /></div>
-      <div className={`${!switchStates && styles.invisible}`}><StateTwo videoDuration={videoDuration} serverDataGot={serverDataGot} serverData={serverData} globalData={globalData} setGlobalData={setGlobalData} /></div>
+      <div className={`${!switchStates && styles.invisible}`}><StateTwo setServerData={setServerData} videoDuration={videoDuration} serverDataGot={serverDataGot} serverData={serverData} globalData={globalData} setGlobalData={setGlobalData} /></div>
     </div>
   );
 };
