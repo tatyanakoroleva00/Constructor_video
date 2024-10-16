@@ -5,7 +5,7 @@ import Testing from "./Testing";
 import ExternalSourceLink from "./ExternalSourceLink";
 import CorrectWordsChoice from "./CorrectWordsChoice";
 
-const Interactive = ({id, onDataChange, interactiveIndex, currentInteractive, serverData, serverDataGot, initialForm, videoDuration, interactivesNamesArr}) => {
+const Interactive = ({setInteractives, setServerData, interactive, getId, setInteractivesNamesArr, setInteractivesArr, globalData,  components, setAllData, setComponents, coursesButtonsArr, allData, setCoursesButtonsArr, id, interactives, interactivesArr, onDataChange, interactiveIndex, setCurrentInteractive, currentInteractive, serverData, serverDataGot, initialForm, videoDuration, interactivesNamesArr}) => {
   const [interactiveData, setInteractiveData] = useState({});
   const [timeError, setTimeError] = useState(false);
 
@@ -26,6 +26,7 @@ const Interactive = ({id, onDataChange, interactiveIndex, currentInteractive, se
   useEffect(() => {
     onDataChange(id, interactiveData);
   }, [interactiveData])
+
 
 
   const changeHandler = (event) => {
@@ -52,12 +53,13 @@ const Interactive = ({id, onDataChange, interactiveIndex, currentInteractive, se
     setInteractiveData(prev => ({ ...prev, receivedInfo }));
   };
 
-
   return (
     <div className={`${initialForm && styles.invisible}`}>
+      {currentInteractive !== null && 
       <div
         className={`${interactiveIndex !== +currentInteractive && styles.invisible}`}>
         <section>
+        <button className={styles['delete-button']} onClick={(e) => getId(e, currentInteractive)}>Удалить интерактив</button>
 
           {!serverDataGot && <div className={styles.block}>
             <label>Тип интерактива:&nbsp;</label>
@@ -120,6 +122,7 @@ const Interactive = ({id, onDataChange, interactiveIndex, currentInteractive, se
           )}
         </section>
       </div>
+      }
     </div>
   );
 };
